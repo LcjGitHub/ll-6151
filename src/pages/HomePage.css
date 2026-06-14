@@ -1,0 +1,69 @@
+.home-page__hero {
+  text-align: center;
+  padding: 2rem 1rem 2.5rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(180deg, #fff 0%, #faf6f0 100%);
+  border: 1px solid #e8dfd0;
+  border-radius: 12px;
+}
+
+.home-page__hero-title {
+  margin-bottom: 0.75rem !important;
+  color: #3d2b1f !important;
+  letter-spacing: 0.08em;
+}
+
+.home-page__hero-desc {
+  max-width: 36rem;
+  margin: 0 auto 1.5rem !important;
+  color: #6b5344;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.home-page__cta {
+  display: inline-block;
+  padding: 0.65rem 1.75rem;
+  color: #fff;
+  background: linear-gradient(135deg, #8b6914, #c4a574);
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  box-shadow: 0 3px 10px rgba(139, 105, 20, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.home-page__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(139, 105, 20, 0.45);
+  color: #fff;
+}
+
+.home-page__card {
+  height: 100%;
+  border-radius: 10px !important;
+  background: #fff !important;
+}
+
+.home-page__features {
+  margin-bottom: 2rem;
+}
+
+.home-page__tech {
+  padding: 1.5rem;
+  background: #fff;
+  border: 1px solid #e8dfd0;
+  border-radius: 12px;
+}
+
+.home-page__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.home-page__note {
+  margin-bottom: 0 !important;
+}

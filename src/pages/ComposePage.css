@@ -1,0 +1,40 @@
+.compose-page__title {
+  margin-bottom: 1.25rem !important;
+  color: #3d2b1f !important;
+  letter-spacing: 0.08em;
+}
+
+.compose-page__panel {
+  margin-bottom: 1.5rem;
+  border-radius: 12px !important;
+  background: #fff !important;
+}
+
+.compose-page__input-row,
+.compose-page__control-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.compose-page__input {
+  font-family: 'STKaiti', 'KaiTi', '楷体', serif;
+  font-size: 1.1rem;
+}
+
+.compose-page__stats {
+  display: flex;
+  gap: 2rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #f0e8dc;
+}
+
+.compose-page__preview-card {
+  border-radius: 12px !important;
+  background: #fff !important;
+}
+
+.compose-page__preview-card .ant-card-head-title {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}

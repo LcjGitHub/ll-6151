@@ -1,0 +1,93 @@
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f7f3ed;
+}
+
+.app-layout__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #3d2b1f 0%, #5c4033 100%);
+  color: #f5f0e8;
+  box-shadow: 0 2px 12px rgba(61, 43, 31, 0.3);
+}
+
+.app-layout__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.app-layout__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-family: 'STKaiti', 'KaiTi', '楷体', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(145deg, #c4a574, #8b6914);
+  border: 2px solid #d4b896;
+  border-radius: 6px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.app-layout__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.app-layout__subtitle {
+  margin: 0;
+  font-size: 0.75rem;
+  opacity: 0.75;
+  letter-spacing: 0.15em;
+}
+
+.app-layout__nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.app-layout__link {
+  padding: 0.5rem 1.25rem;
+  color: #e8dfd0;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  transition: background 0.2s, color 0.2s;
+}
+
+.app-layout__link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.app-layout__link--active {
+  background: rgba(196, 165, 116, 0.25);
+  color: #fff;
+  font-weight: 600;
+}
+
+.app-layout__main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.app-layout__footer {
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #a08060;
+  border-top: 1px solid #e8dfd0;
+}
