@@ -7,6 +7,15 @@ export interface TypeCharacter {
   char: string
   woodTone: string
   inkShade: string
+  sequence: number
+}
+
+/** 浮层提示显示内容 */
+export interface TooltipContent {
+  found: boolean
+  char: string
+  glyph?: TypeCharacter | null
+  onReplace?: (char: string) => void
 }
 
 /** Mock 字库 JSON 结构 */

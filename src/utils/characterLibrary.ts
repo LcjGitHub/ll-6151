@@ -3,12 +3,17 @@ import typeCharactersData from '../mock/type-characters.json'
 
 /**
  * 构建字库查找表（char → TypeCharacter）
+ * 为每个字模条目添加在字库中的序号（从 1 开始）
  */
 function buildCharacterMap(): Map<string, TypeCharacter> {
   const map = new Map<string, TypeCharacter>()
-  for (const entry of typeCharactersData.characters) {
+  for (let i = 0; i < typeCharactersData.characters.length; i++) {
+    const entry = typeCharactersData.characters[i]
     if (!map.has(entry.char)) {
-      map.set(entry.char, entry)
+      map.set(entry.char, {
+        ...entry,
+        sequence: i + 1,
+      })
     }
   }
   return map

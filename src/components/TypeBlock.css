@@ -9,6 +9,13 @@
   flex-shrink: 0;
   perspective: 400px;
   user-select: none;
+  cursor: help;
+  overflow: visible;
+  transition: transform 0.2s ease;
+}
+
+.type-block:hover {
+  transform: translateY(-2px);
 }
 
 .type-block--found {

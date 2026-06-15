@@ -17,6 +17,7 @@
   border: 1px solid #d4c4a8;
   border-radius: 12px;
   box-shadow: inset 0 2px 8px rgba(61, 43, 31, 0.08);
+  overflow: visible;
 }
 
 .type-preview__stage--horizontal {

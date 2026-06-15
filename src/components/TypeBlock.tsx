@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import type { CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import type { MappedCharacter } from '../types'
+import { CharacterTooltip } from './CharacterTooltip'
 import './TypeBlock.css'
 
 interface TypeBlockProps {
@@ -8,14 +10,21 @@ interface TypeBlockProps {
   item: MappedCharacter
   /** 入场动画延迟序号 */
   animationIndex: number
+  /** 缺字替换回调 */
+  onReplace?: (char: string) => void
 }
 
 /**
  * 活字印刷「字块」组件
  * 有字模时渲染木刻质感字块，缺字时显示占位提示
+ * 悬停时显示浮层提示详情
  */
-export function TypeBlock({ item, animationIndex }: TypeBlockProps) {
+export function TypeBlock({ item, animationIndex, onReplace }: TypeBlockProps) {
   const { char, found, glyph } = item
+  const [showTooltip, setShowTooltip] = useState(false)
+
+  const handleMouseEnter = () => setShowTooltip(true)
+  const handleMouseLeave = () => setShowTooltip(false)
 
   return (
     <motion.div
@@ -36,10 +45,22 @@ export function TypeBlock({ item, animationIndex }: TypeBlockProps) {
         damping: 22,
         delay: animationIndex * 0.06,
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       title={found ? `字模：${char}` : `缺字：${char}`}
     >
       <span className="type-block__char">{char}</span>
       {!found && <span className="type-block__badge">缺</span>}
+      <CharacterTooltip
+        visible={showTooltip}
+        content={{
+          found,
+          char,
+          glyph,
+          onReplace,
+        }}
+        position="top"
+      />
     </motion.div>
   )
 }

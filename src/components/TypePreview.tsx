@@ -12,13 +12,15 @@ interface TypePreviewProps {
   missingChars: string[]
   /** 动画触发键（变化时强制字块入场动画重播） */
   animationKey: number
+  /** 缺字替换回调 */
+  onReplace?: (char: string) => void
 }
 
 /**
  * 活字排版预览区
  * 支持横排 / 竖排 writing-mode 切换
  */
-export function TypePreview({ mapped, writingMode, missingChars, animationKey }: TypePreviewProps) {
+export function TypePreview({ mapped, writingMode, missingChars, animationKey, onReplace }: TypePreviewProps) {
   const isVertical = writingMode === 'vertical'
 
   return (
@@ -45,6 +47,7 @@ export function TypePreview({ mapped, writingMode, missingChars, animationKey }:
               key={`${animationKey}-${item.index}-${item.char}`}
               item={item}
               animationIndex={item.index}
+              onReplace={onReplace}
             />
           ))
         )}
