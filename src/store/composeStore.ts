@@ -13,7 +13,9 @@ interface ComposeState {
   writingMode: WritingMode
   /** 已收藏的短句列表 */
   favorites: FavoriteItem[]
-  /** 更新短句（自动截断至最大长度） */
+  /** 字块入场动画序号（每次选择/更新短句时递增，用于强制重播动画） */
+  animationKey: number
+  /** 更新短句（自动截断至最大长度），并递增动画序号触发入场动画重播 */
   setSentence: (text: string) => void
   /** 切换横排 / 竖排 */
   setWritingMode: (mode: WritingMode) => void
@@ -26,7 +28,7 @@ interface ComposeState {
   addFavoriteItem: (name: string) => boolean
   /** 按 id 删除一条收藏 */
   removeFavoriteItem: (id: string) => void
-  /** 将某条收藏恢复为当前短句和排版方向 */
+  /** 将某条收藏恢复为当前短句和排版方向，并触发入场动画重播 */
   restoreFavorite: (item: FavoriteItem) => void
 }
 
@@ -37,10 +39,12 @@ export const useComposeStore = create<ComposeState>((set, get) => ({
   sentence: '活字印刷排版预览',
   writingMode: 'horizontal',
   favorites: [],
+  animationKey: 0,
 
   setSentence: (text) =>
     set({
       sentence: Array.from(text).slice(0, MAX_SENTENCE_LENGTH).join(''),
+      animationKey: get().animationKey + 1,
     }),
 
   setWritingMode: (mode) => set({ writingMode: mode }),
@@ -75,6 +79,7 @@ export const useComposeStore = create<ComposeState>((set, get) => ({
     set({
       sentence: item.sentence,
       writingMode: item.writingMode,
+      animationKey: get().animationKey + 1,
     })
   },
 }))

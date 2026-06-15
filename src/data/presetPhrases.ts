@@ -1,25 +1,38 @@
+/**
+ * 排版台预设短句数据
+ *
+ * 收录若干条示例短句，所有短句的每个字均已在 Mock 字库中完整收录，
+ * 快选后预览区不会出现缺字提示。每条短句字数不超过 20。
+ */
+
 export interface PresetPhrase {
+  /** 短句文本，所有字均需在 Mock 字库中存在 */
   text: string
-  category: 'slogan' | 'poetry'
 }
 
+/**
+ * 预设示例短句列表
+ * 所有条目均已通过字库校验，无缺字
+ */
 export const presetPhrases: PresetPhrase[] = [
-  { text: '不忘初心，方得始终', category: 'slogan' },
-  { text: '砥砺前行，再创辉煌', category: 'slogan' },
-  { text: '团结奋进，开拓创新', category: 'slogan' },
-  { text: '精益求精，追求卓越', category: 'slogan' },
-  { text: '匠心筑梦，品质致远', category: 'slogan' },
-  { text: '厚德载物，自强不息', category: 'slogan' },
-  { text: '知行合一，止于至善', category: 'slogan' },
-  { text: '守正创新，笃行不怠', category: 'slogan' },
-  { text: '海内存知己，天涯若比邻', category: 'poetry' },
-  { text: '会当凌绝顶，一览众山小', category: 'poetry' },
-  { text: '明月几时有，把酒问青天', category: 'poetry' },
-  { text: '大漠孤烟直，长河落日圆', category: 'poetry' },
-  { text: '采菊东篱下，悠然见南山', category: 'poetry' },
-  { text: '落霞与孤鹜齐飞', category: 'poetry' },
-  { text: '人生自古谁无死', category: 'poetry' },
-  { text: '长风破浪会有时', category: 'poetry' },
-  { text: '天生我材必有用', category: 'poetry' },
-  { text: '千金散尽还复来', category: 'poetry' },
+  { text: '风花雪月山水人家' },
+  { text: '书文字画诗词歌乐' },
+  { text: '好美好爱平安喜乐' },
+  { text: '金木水火土天地人' },
+  { text: '上下左右前后高低' },
+  { text: '床前明月光' },
+  { text: '读书写字画画' },
+  { text: '一山一水一人家' },
+  { text: '岁岁平安年年好' },
+  { text: '竹林山石花草田' },
+  { text: '春夏秋冬四时' },
+  { text: '明月风云' },
+  { text: '江河湖海山水田' },
+  { text: '家和人寿年长' },
+  { text: '东南西北中' },
+  { text: '活字印刷排版' },
+  { text: '笔墨纸画书写' },
+  { text: '天高地美人和好' },
+  { text: '长短高低多少' },
+  { text: '衣食住行平安' },
 ]

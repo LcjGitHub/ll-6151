@@ -19,6 +19,7 @@ export function ComposePage() {
     sentence,
     writingMode,
     favorites,
+    animationKey,
     setSentence,
     setWritingMode,
     loadFavoritesFromStorage,
@@ -83,7 +84,7 @@ export function ComposePage() {
 
       <Card className="compose-page__panel" bordered={false}>
         <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-          <QuickPhrases onSelect={setSentence} />
+          <QuickPhrases currentSentence={sentence} onSelect={setSentence} />
 
           <div className="compose-page__input-row">
             <Text strong>短句输入</Text>
@@ -138,6 +139,7 @@ export function ComposePage() {
             mapped={mapped}
             writingMode={writingMode}
             missingChars={missingChars}
+            animationKey={animationKey}
           />
         </Card>
 

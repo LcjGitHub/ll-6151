@@ -10,13 +10,15 @@ interface TypePreviewProps {
   writingMode: WritingMode
   /** 缺字列表 */
   missingChars: string[]
+  /** 动画触发键（变化时强制字块入场动画重播） */
+  animationKey: number
 }
 
 /**
  * 活字排版预览区
  * 支持横排 / 竖排 writing-mode 切换
  */
-export function TypePreview({ mapped, writingMode, missingChars }: TypePreviewProps) {
+export function TypePreview({ mapped, writingMode, missingChars, animationKey }: TypePreviewProps) {
   const isVertical = writingMode === 'vertical'
 
   return (
@@ -40,7 +42,7 @@ export function TypePreview({ mapped, writingMode, missingChars }: TypePreviewPr
         ) : (
           mapped.map((item) => (
             <TypeBlock
-              key={`${item.index}-${item.char}`}
+              key={`${animationKey}-${item.index}-${item.char}`}
               item={item}
               animationIndex={item.index}
             />
