@@ -39,6 +39,7 @@ export function TypeBlock({ item, animationIndex, onReplace }: TypeBlockProps) {
       }
       initial={{ opacity: 0, y: 24, rotateX: -40, scale: 0.85 }}
       animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+      whileHover={{ y: -2 }}
       transition={{
         type: 'spring',
         stiffness: 260,
@@ -47,7 +48,6 @@ export function TypeBlock({ item, animationIndex, onReplace }: TypeBlockProps) {
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      title={found ? `字模：${char}` : `缺字：${char}`}
     >
       <span className="type-block__char">{char}</span>
       {!found && <span className="type-block__badge">缺</span>}

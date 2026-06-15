@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Button, Card, Input, message, Modal, Segmented, Space, Statistic, Typography } from 'antd'
-import type { InputRef } from 'antd'
 import { SaveOutlined } from '@ant-design/icons'
 import { useComposeStore } from '../store/composeStore'
 import { TypePreview } from '../components/TypePreview'
@@ -32,7 +31,6 @@ export function ComposePage() {
   const [saveModalOpen, setSaveModalOpen] = useState(false)
   const [favoriteName, setFavoriteName] = useState('')
   const [messageApi, contextHolder] = message.useMessage()
-  const inputRef = useRef<InputRef>(null)
 
   // 页面加载时从 localStorage 读取收藏列表
   useEffect(() => {
@@ -76,13 +74,6 @@ export function ComposePage() {
     removeFavoriteItem(id)
   }
 
-  // 处理缺字替换：定位到输入框并提示用户替换
-  const handleReplace = (char: string) => {
-    messageApi.info(`请在输入框中替换「${char}」为其他常用字`)
-    inputRef.current?.focus()
-    inputRef.current?.input?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-  }
-
   return (
     <div className="compose-page">
       {contextHolder}
@@ -98,7 +89,6 @@ export function ComposePage() {
           <div className="compose-page__input-row">
             <Text strong>短句输入</Text>
             <Input
-              ref={inputRef}
               value={sentence}
               onChange={(e) => setSentence(e.target.value)}
               placeholder={`请输入不超过 ${MAX_SENTENCE_LENGTH} 字的短句`}
@@ -150,7 +140,6 @@ export function ComposePage() {
             writingMode={writingMode}
             missingChars={missingChars}
             animationKey={animationKey}
-            onReplace={handleReplace}
           />
         </Card>
 

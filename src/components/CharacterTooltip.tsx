@@ -71,7 +71,7 @@ export function CharacterTooltip({ visible, content, position = 'top' }: Charact
               <div className="char-tooltip__missing-icon">!</div>
               <div className="char-tooltip__missing-title">字库未收录「{char}」</div>
               <div className="char-tooltip__missing-desc">
-                该字暂未加入 Mock 字库，建议替换为常用字或扩充字库数据。
+                该字暂未加入字库，建议替换为其他常用字。
               </div>
               {onReplace && (
                 <button
