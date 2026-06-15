@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Button, Card, Input, Modal, Segmented, Space, Statistic, Typography } from 'antd'
+import { Button, Card, Input, message, Modal, Segmented, Space, Statistic, Typography } from 'antd'
 import { SaveOutlined } from '@ant-design/icons'
 import { useComposeStore } from '../store/composeStore'
 import { TypePreview } from '../components/TypePreview'
@@ -10,6 +10,9 @@ import './ComposePage.css'
 
 const { Title, Text } = Typography
 
+/**
+ * 排版台页面：输入短句、切换排版方向、预览字块，以及收藏管理
+ */
 export function ComposePage() {
   const {
     sentence,
@@ -25,39 +28,54 @@ export function ComposePage() {
 
   const [saveModalOpen, setSaveModalOpen] = useState(false)
   const [favoriteName, setFavoriteName] = useState('')
+  const [messageApi, contextHolder] = message.useMessage()
 
+  // 页面加载时从 localStorage 读取收藏列表
   useEffect(() => {
     loadFavoritesFromStorage()
   }, [loadFavoritesFromStorage])
 
+  // 将当前短句逐字映射为字模
   const mapped = useMemo(() => mapSentenceToGlyphs(sentence), [sentence])
+  // 统计缺字（去重保序）
   const missingChars = useMemo(() => getMissingCharacters(mapped), [mapped])
   const charCount = Array.from(sentence).length
   const foundCount = mapped.filter((m) => m.found).length
 
+  // 打开收藏命名弹窗
   const handleOpenSaveModal = () => {
     setFavoriteName('')
     setSaveModalOpen(true)
   }
 
+  // 保存收藏：同名阻止并提示，成功则 toast
   const handleSave = () => {
     const trimmed = favoriteName.trim()
     if (!trimmed) return
-    addFavoriteItem(trimmed)
+    const ok = addFavoriteItem(trimmed)
+    if (!ok) {
+      messageApi.warning(`已存在同名收藏："${trimmed}"，请换个名字`)
+      return
+    }
+    messageApi.success('收藏成功')
     setSaveModalOpen(false)
     setFavoriteName('')
   }
 
+  // 还原一条收藏为当前短句与排版方向
   const handleRestore = (item: FavoriteItem) => {
     restoreFavorite(item)
   }
 
+  // 删除一条收藏
   const handleRemove = (id: string) => {
     removeFavoriteItem(id)
   }
 
   return (
     <div className="compose-page">
+      {contextHolder}
+
       <Title level={3} className="compose-page__title">
         排版台
       </Title>
