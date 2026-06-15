@@ -4,6 +4,7 @@ import { SaveOutlined } from '@ant-design/icons'
 import { useComposeStore } from '../store/composeStore'
 import { TypePreview } from '../components/TypePreview'
 import { FavoriteList } from '../components/FavoriteList'
+import { QuickPhrases } from '../components/QuickPhrases'
 import { getMissingCharacters, mapSentenceToGlyphs, MAX_SENTENCE_LENGTH } from '../utils/mapSentence'
 import type { FavoriteItem, WritingMode } from '../types'
 import './ComposePage.css'
@@ -82,6 +83,8 @@ export function ComposePage() {
 
       <Card className="compose-page__panel" bordered={false}>
         <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+          <QuickPhrases onSelect={setSentence} />
+
           <div className="compose-page__input-row">
             <Text strong>短句输入</Text>
             <Input
