@@ -11,6 +11,19 @@
   user-select: none;
   cursor: help;
   overflow: visible;
+  font-size: 1.75rem;
+}
+
+.type-block--spacing-compact {
+  margin: 0.25em;
+}
+
+.type-block--spacing-default {
+  margin: 0.5em;
+}
+
+.type-block--spacing-loose {
+  margin: 1em;
 }
 
 .type-block--found {

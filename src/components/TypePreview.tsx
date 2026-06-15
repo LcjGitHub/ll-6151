@@ -21,6 +21,8 @@ interface TypePreviewProps {
 /**
  * 活字排版预览区
  * 支持横排 / 竖排 writing-mode 切换
+ * 支持紧凑 / 默认 / 宽松三档字块间距调节
+ * 字块间距通过每个字块的外边距实现，横排与竖排模式下均生效
  */
 export function TypePreview({ mapped, writingMode, spacing, missingChars, animationKey, onReplace }: TypePreviewProps) {
   const isVertical = writingMode === 'vertical'
@@ -38,7 +40,7 @@ export function TypePreview({ mapped, writingMode, spacing, missingChars, animat
       )}
 
       <div
-        className={`type-preview__stage ${isVertical ? 'type-preview__stage--vertical' : 'type-preview__stage--horizontal'} type-preview__stage--spacing-${spacing}`}
+        className={`type-preview__stage ${isVertical ? 'type-preview__stage--vertical' : 'type-preview__stage--horizontal'}`}
         style={{ writingMode: isVertical ? 'vertical-rl' : 'horizontal-tb' }}
       >
         {mapped.length === 0 ? (
@@ -49,6 +51,7 @@ export function TypePreview({ mapped, writingMode, spacing, missingChars, animat
               key={`${animationKey}-${item.index}-${item.char}`}
               item={item}
               animationIndex={item.index}
+              spacing={spacing}
               onReplace={onReplace}
             />
           ))
