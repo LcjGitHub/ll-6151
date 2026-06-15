@@ -185,9 +185,16 @@
   font-size: 12px;
   padding: 2px 10px;
   border-radius: 4px;
+  outline: none;
 }
 
-.char-tooltip__recommend-tag:hover {
+.char-tooltip__recommend-tag:hover,
+.char-tooltip__recommend-tag:focus-visible {
   transform: scale(1.05);
   box-shadow: 0 2px 6px rgba(24, 144, 255, 0.3);
+}
+
+.char-tooltip__recommend-tag:focus-visible {
+  outline: 2px solid #1890ff;
+  outline-offset: 2px;
 }

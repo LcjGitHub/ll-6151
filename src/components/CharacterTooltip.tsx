@@ -86,8 +86,16 @@ export function CharacterTooltip({ visible, content, position = 'top' }: Charact
                     <Tag
                       key={rec}
                       color="blue"
+                      role="button"
+                      tabIndex={0}
                       className="char-tooltip__recommend-tag"
                       onClick={() => onReplace(char, rec)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          onReplace(char, rec)
+                        }
+                      }}
                     >
                       {rec}
                     </Tag>

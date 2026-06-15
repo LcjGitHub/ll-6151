@@ -62,8 +62,16 @@ export function TypePreview({ mapped, writingMode, spacing, missingChars, animat
                       <Tag
                         key={rec}
                         color="blue"
+                        role="button"
+                        tabIndex={0}
                         className="type-preview__recommend-tag"
                         onClick={() => onReplace?.(char, rec)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            onReplace?.(char, rec)
+                          }
+                        }}
                       >
                         {rec}
                       </Tag>
