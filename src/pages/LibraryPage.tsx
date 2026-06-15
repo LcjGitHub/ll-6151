@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Button, Card, Col, Descriptions, Input, Row, Statistic, Tag, Typography } from 'antd'
 import { CharacterGrid } from '../components/CharacterGrid'
 import { getAllCharacterEntries, getLibrarySize } from '../utils/characterLibrary'
-import { categories, isCharacterInCategory } from '../data/categoryConfig'
+import { categories, getCategoryLabel, isCharacterInCategory } from '../data/categoryConfig'
 import type { TypeCharacter } from '../types'
 import './LibraryPage.css'
 
@@ -60,6 +60,11 @@ export function LibraryPage() {
                 suffix="字"
                 valueStyle={{ color: '#8b6914' }}
               />
+              {selectedCategory !== 'all' && (
+                <Tag color="gold" className="library-page__category-name-tag">
+                  {getCategoryLabel(selectedCategory)}
+                </Tag>
+              )}
               {keyword && (
                 <Tag color="default" className="library-page__keyword-tag">
                   关键字：{keyword}
@@ -69,20 +74,29 @@ export function LibraryPage() {
           </Col>
         </Row>
 
-        <div className="library-page__categories">
+        <div className="library-page__categories" role="group" aria-label="主题分类筛选">
           <span className="library-page__categories-label">主题分类：</span>
           <div className="library-page__categories-tags">
             {categories.map((cat) => (
-              <Tag
+              <button
                 key={cat.key}
-                color={selectedCategory === cat.key ? 'gold' : 'default'}
-                className={`library-page__category-tag ${
-                  selectedCategory === cat.key ? 'library-page__category-tag--active' : ''
+                type="button"
+                role="tab"
+                aria-selected={selectedCategory === cat.key}
+                tabIndex={selectedCategory === cat.key ? 0 : -1}
+                className={`library-page__category-btn ${
+                  selectedCategory === cat.key ? 'library-page__category-btn--active' : ''
                 }`}
                 onClick={() => setSelectedCategory(cat.key)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    setSelectedCategory(cat.key)
+                  }
+                }}
               >
                 {cat.label}
-              </Tag>
+              </button>
             ))}
           </div>
         </div>
