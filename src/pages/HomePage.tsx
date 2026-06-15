@@ -20,7 +20,7 @@ export function HomePage() {
         </Title>
         <Paragraph className="home-page__hero-desc">
           输入不超过 {MAX_SENTENCE_LENGTH} 字的短句，系统将逐字映射 Mock 字库，
-          以木刻质感字块呈现排版效果，支持横排与竖排切换。
+          以木刻质感字块呈现排版效果；支持横排与竖排切换，也可进入对照预览同时对比两种排版。
         </Paragraph>
         <div className="home-page__cta-group">
           <Link to="/compose" className="home-page__cta">
@@ -53,8 +53,8 @@ export function HomePage() {
           </Card>
         </Col>
         <Col xs={24} sm={12}>
-          <Card title="④ 横竖切换" bordered={false} className="home-page__card">
-            <Text>Segmented 控件切换横排 / 竖排，预览区通过 CSS writing-mode 实现。</Text>
+          <Card title="④ 横竖切换与对照" bordered={false} className="home-page__card">
+            <Text>排版台内 Segmented 控件切换横排 / 竖排；对照预览页左右分栏同时展示两种方向，无需切换。</Text>
           </Card>
         </Col>
         <Col xs={24}>

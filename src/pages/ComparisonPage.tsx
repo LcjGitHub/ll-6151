@@ -8,6 +8,11 @@ import './ComparisonPage.css'
 
 const { Title, Text } = Typography
 
+/**
+ * 横竖对照预览页面
+ * 用户输入或沿用当前短句后，左右分栏同时展示横排与竖排两种排版效果，
+ * 两侧各自独立渲染字块列表和缺字提示，中间无方向切换控件。
+ */
 export function ComparisonPage() {
   const { sentence: storeSentence, animationKey, setSentence } = useComposeStore()
   const [localSentence, setLocalSentence] = useState(storeSentence)
