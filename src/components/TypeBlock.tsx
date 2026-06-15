@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { CSSProperties } from 'react'
 import { motion } from 'framer-motion'
-import type { MappedCharacter, SpacingMode } from '../types'
+import type { MappedCharacter, SpacingMode, WritingMode } from '../types'
 import { CharacterTooltip } from './CharacterTooltip'
 import './TypeBlock.css'
 
@@ -10,6 +10,8 @@ interface TypeBlockProps {
   item: MappedCharacter
   /** 入场动画延迟序号 */
   animationIndex: number
+  /** 排版方向，决定入场动画位移轴：横排沿 y 轴、竖排沿 x 轴 */
+  writingMode: WritingMode
   /** 字块间距档位 */
   spacing?: SpacingMode
   /** 缺字替换回调 */
@@ -20,10 +22,28 @@ interface TypeBlockProps {
  * 活字印刷「字块」组件
  * 有字模时渲染木刻质感字块，缺字时显示占位提示
  * 悬停时显示浮层提示详情
+ *
+ * 入场动画按排版方向切换位移轴：
+ * - 横排 (horizontal)：字块从下方弹入，沿 y 轴自下而上位移
+ * - 竖排 (vertical)：字块从右侧弹入，沿 x 轴自右而左位移（顺竖排阅读流向）
  */
-export function TypeBlock({ item, animationIndex, spacing = 'default', onReplace }: TypeBlockProps) {
+export function TypeBlock({ item, animationIndex, writingMode, spacing = 'default', onReplace }: TypeBlockProps) {
   const { char, found, glyph } = item
   const [showTooltip, setShowTooltip] = useState(false)
+
+  const isVertical = writingMode === 'vertical'
+
+  const initial = isVertical
+    ? { opacity: 0, x: 24, rotateY: -40, scale: 0.85 }
+    : { opacity: 0, y: 24, rotateX: -40, scale: 0.85 }
+
+  const animate = isVertical
+    ? { opacity: 1, x: 0, rotateY: 0, scale: 1 }
+    : { opacity: 1, y: 0, rotateX: 0, scale: 1 }
+
+  const whileHover = isVertical
+    ? { x: -2 }
+    : { y: -2 }
 
   const handleMouseEnter = () => setShowTooltip(true)
   const handleMouseLeave = () => setShowTooltip(false)
@@ -39,9 +59,9 @@ export function TypeBlock({ item, animationIndex, spacing = 'default', onReplace
             } as CSSProperties
           : undefined
       }
-      initial={{ opacity: 0, y: 24, rotateX: -40, scale: 0.85 }}
-      animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
-      whileHover={{ y: -2 }}
+      initial={initial}
+      animate={animate}
+      whileHover={whileHover}
       transition={{
         type: 'spring',
         stiffness: 260,

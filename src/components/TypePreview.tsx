@@ -23,6 +23,14 @@ interface TypePreviewProps {
  * 支持横排 / 竖排 writing-mode 切换
  * 支持紧凑 / 默认 / 宽松三档字块间距调节
  * 字块间距通过每个字块的外边距实现，横排与竖排模式下均生效
+ *
+ * 动画批次标识与重播机制：
+ * - animationKey（动画批次标识）为 store 中的递增数字，每次短句变更或手动重播时递增
+ * - 将 animationKey 拼入每个 TypeBlock 的 React key，批次变化时 React 卸载旧组件并挂载新组件，
+ *   从而使 framer-motion 重新触发 initial → animate 入场弹簧动画
+ * - 排版台预览区标题栏的「重新播放」按钮调用 store.replayAnimation()，仅递增 animationKey，
+ *   不改变输入内容，纯粹重播视觉效果
+ * - 入场动画位移轴随排版方向切换：横排沿 y 轴自下而上弹入，竖排沿 x 轴顺阅读流向自右而左弹入
  */
 export function TypePreview({ mapped, writingMode, spacing, missingChars, animationKey, onReplace }: TypePreviewProps) {
   const isVertical = writingMode === 'vertical'
@@ -51,6 +59,7 @@ export function TypePreview({ mapped, writingMode, spacing, missingChars, animat
               key={`${animationKey}-${item.index}-${item.char}`}
               item={item}
               animationIndex={item.index}
+              writingMode={writingMode}
               spacing={spacing}
               onReplace={onReplace}
             />

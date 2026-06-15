@@ -38,6 +38,7 @@ export function ComparisonPreview({ mapped, missingChars, animationKey, onReplac
                 key={`h-${animationKey}-${item.index}-${item.char}`}
                 item={item}
                 animationIndex={item.index}
+                writingMode="horizontal"
                 onReplace={onReplace}
               />
             ))
@@ -70,6 +71,7 @@ export function ComparisonPreview({ mapped, missingChars, animationKey, onReplac
                 key={`v-${animationKey}-${item.index}-${item.char}`}
                 item={item}
                 animationIndex={item.index}
+                writingMode="vertical"
                 onReplace={onReplace}
               />
             ))
