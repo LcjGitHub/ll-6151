@@ -34,6 +34,8 @@ interface ComposeState {
   removeFavoriteItem: (id: string) => void
   /** 将某条收藏恢复为当前短句和排版方向，并触发入场动画重播 */
   restoreFavorite: (item: FavoriteItem) => void
+  /** 仅递增动画序号，触发所有字块重新播放入场动画，不改变输入内容 */
+  replayAnimation: () => void
 }
 
 /**
@@ -88,5 +90,9 @@ export const useComposeStore = create<ComposeState>((set, get) => ({
       writingMode: item.writingMode,
       animationKey: get().animationKey + 1,
     })
+  },
+
+  replayAnimation: () => {
+    set({ animationKey: get().animationKey + 1 })
   },
 }))

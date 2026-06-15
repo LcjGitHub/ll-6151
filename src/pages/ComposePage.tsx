@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Button, Card, Input, message, Modal, Segmented, Space, Statistic, Typography } from 'antd'
-import { SaveOutlined } from '@ant-design/icons'
+import { ReloadOutlined, SaveOutlined } from '@ant-design/icons'
 import { useComposeStore } from '../store/composeStore'
 import { TypePreview } from '../components/TypePreview'
 import { FavoriteList } from '../components/FavoriteList'
@@ -28,6 +28,7 @@ export function ComposePage() {
     addFavoriteItem,
     removeFavoriteItem,
     restoreFavorite,
+    replayAnimation,
   } = useComposeStore()
 
   const [saveModalOpen, setSaveModalOpen] = useState(false)
@@ -150,7 +151,21 @@ export function ComposePage() {
       </Card>
 
       <div className="compose-page__content">
-        <Card title="排版预览" className="compose-page__preview-card" bordered={false}>
+        <Card
+          title="排版预览"
+          className="compose-page__preview-card"
+          bordered={false}
+          extra={
+            <Button
+              icon={<ReloadOutlined />}
+              onClick={replayAnimation}
+              disabled={sentence.trim().length === 0}
+              size="small"
+            >
+              重新播放
+            </Button>
+          }
+        >
           <TypePreview
             mapped={mapped}
             writingMode={writingMode}
