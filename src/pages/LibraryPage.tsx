@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Button, Card, Col, Descriptions, Input, Row, Statistic, Tag, Typography } from 'antd'
 import { CharacterGrid } from '../components/CharacterGrid'
 import { getAllCharacterEntries, getLibrarySize } from '../utils/characterLibrary'
+import { categories, isCharacterInCategory } from '../data/categoryConfig'
 import type { TypeCharacter } from '../types'
 import './LibraryPage.css'
 
@@ -11,13 +12,17 @@ export function LibraryPage() {
   const allEntries = useMemo(() => getAllCharacterEntries(), [])
   const totalSize = getLibrarySize()
   const [keyword, setKeyword] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedChar, setSelectedChar] = useState<TypeCharacter | null>(null)
 
   const filteredEntries = useMemo(() => {
     const kw = keyword.trim()
-    if (!kw) return allEntries
-    return allEntries.filter((entry) => entry.char.includes(kw))
-  }, [allEntries, keyword])
+    return allEntries.filter((entry) => {
+      const matchKeyword = !kw || entry.char.includes(kw)
+      const matchCategory = isCharacterInCategory(entry.char, selectedCategory)
+      return matchKeyword && matchCategory
+    })
+  }, [allEntries, keyword, selectedCategory])
 
   useEffect(() => {
     if (!selectedChar) return
@@ -63,6 +68,24 @@ export function LibraryPage() {
             </div>
           </Col>
         </Row>
+
+        <div className="library-page__categories">
+          <span className="library-page__categories-label">主题分类：</span>
+          <div className="library-page__categories-tags">
+            {categories.map((cat) => (
+              <Tag
+                key={cat.key}
+                color={selectedCategory === cat.key ? 'gold' : 'default'}
+                className={`library-page__category-tag ${
+                  selectedCategory === cat.key ? 'library-page__category-tag--active' : ''
+                }`}
+                onClick={() => setSelectedCategory(cat.key)}
+              >
+                {cat.label}
+              </Tag>
+            ))}
+          </div>
+        </div>
       </Card>
 
       <Row gutter={[16, 16]} className="library-page__content">
