@@ -1,6 +1,8 @@
-import type { CSSProperties } from 'react'
+import { useMemo, type CSSProperties } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Tag } from 'antd'
 import type { TooltipContent } from '../types'
+import { recommendSimilarCharacters } from '../utils/characterRecommendation'
 import './CharacterTooltip.css'
 
 interface CharacterTooltipProps {
@@ -11,6 +13,11 @@ interface CharacterTooltipProps {
 
 export function CharacterTooltip({ visible, content, position = 'top' }: CharacterTooltipProps) {
   const { found, char, glyph, onReplace } = content
+
+  const recommendations = useMemo(() => {
+    if (found || !onReplace) return []
+    return recommendSimilarCharacters(char, 3)
+  }, [found, char, onReplace])
 
   return (
     <AnimatePresence>
@@ -71,16 +78,21 @@ export function CharacterTooltip({ visible, content, position = 'top' }: Charact
               <div className="char-tooltip__missing-icon">!</div>
               <div className="char-tooltip__missing-title">字库未收录「{char}」</div>
               <div className="char-tooltip__missing-desc">
-                该字暂未加入字库，建议替换为其他常用字。
+                该字暂未加入字库，可替换为以下推荐字：
               </div>
-              {onReplace && (
-                <button
-                  type="button"
-                  className="char-tooltip__replace-btn"
-                  onClick={() => onReplace(char)}
-                >
-                  去替换
-                </button>
+              {onReplace && recommendations.length > 0 && (
+                <div className="char-tooltip__recommend-tags">
+                  {recommendations.map((rec) => (
+                    <Tag
+                      key={rec}
+                      color="blue"
+                      className="char-tooltip__recommend-tag"
+                      onClick={() => onReplace(char, rec)}
+                    >
+                      {rec}
+                    </Tag>
+                  ))}
+                </div>
               )}
             </div>
           )}

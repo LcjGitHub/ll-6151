@@ -171,19 +171,23 @@
   line-height: 1.5;
 }
 
-.char-tooltip__replace-btn {
+.char-tooltip__recommend-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
   margin-top: 4px;
-  padding: 6px 16px;
-  background: #8b4513;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
 }
 
-.char-tooltip__replace-btn:hover {
-  background: #6b3410;
+.char-tooltip__recommend-tag {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 4px;
+}
+
+.char-tooltip__recommend-tag:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(24, 144, 255, 0.3);
 }

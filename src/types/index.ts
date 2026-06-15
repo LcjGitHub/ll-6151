@@ -15,7 +15,7 @@ export interface TooltipContent {
   found: boolean
   char: string
   glyph?: TypeCharacter | null
-  onReplace?: (char: string) => void
+  onReplace?: (missingChar: string, replacement: string) => void
 }
 
 /** Mock 字库 JSON 结构 */

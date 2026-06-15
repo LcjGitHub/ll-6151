@@ -14,8 +14,8 @@ interface TypeBlockProps {
   writingMode: WritingMode
   /** 字块间距档位 */
   spacing?: SpacingMode
-  /** 缺字替换回调 */
-  onReplace?: (char: string) => void
+  /** 缺字替换回调，参数为 (缺字, 替换字) */
+  onReplace?: (missingChar: string, replacement: string) => void
 }
 
 /**

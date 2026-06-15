@@ -8,6 +8,39 @@
   border-radius: 8px;
 }
 
+.type-preview__recommend-section {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.type-preview__recommend-item {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.type-preview__recommend-label {
+  font-size: 13px;
+  color: #666;
+  font-weight: normal;
+}
+
+.type-preview__recommend-tag {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  padding: 2px 10px;
+  border-radius: 4px;
+}
+
+.type-preview__recommend-tag:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(24, 144, 255, 0.3);
+}
+
 .type-preview__stage {
   min-height: 12rem;
   padding: 2rem;

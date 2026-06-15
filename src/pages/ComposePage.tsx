@@ -77,6 +77,13 @@ export function ComposePage() {
     removeFavoriteItem(id)
   }
 
+  // 批量替换缺字：将短句中所有该缺字替换为候选字
+  const handleReplaceCharacter = (missingChar: string, replacement: string) => {
+    const newSentence = sentence.split(missingChar).join(replacement)
+    setSentence(newSentence)
+    messageApi.success(`已将「${missingChar}」全部替换为「${replacement}」`)
+  }
+
   return (
     <div className="compose-page">
       {contextHolder}
@@ -172,6 +179,7 @@ export function ComposePage() {
             spacing={spacing}
             missingChars={missingChars}
             animationKey={animationKey}
+            onReplace={handleReplaceCharacter}
           />
         </Card>
 
