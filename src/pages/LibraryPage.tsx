@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { Card, Col, Descriptions, Input, Row, Statistic, Tag, Typography } from 'antd'
+import { useEffect, useMemo, useState } from 'react'
+import { Button, Card, Col, Descriptions, Input, Row, Statistic, Tag, Typography } from 'antd'
 import { CharacterGrid } from '../components/CharacterGrid'
 import { getAllCharacterEntries, getLibrarySize } from '../utils/characterLibrary'
 import type { TypeCharacter } from '../types'
@@ -18,6 +18,14 @@ export function LibraryPage() {
     if (!kw) return allEntries
     return allEntries.filter((entry) => entry.char.includes(kw))
   }, [allEntries, keyword])
+
+  useEffect(() => {
+    if (!selectedChar) return
+    const stillExists = filteredEntries.some((e) => e.char === selectedChar.char)
+    if (!stillExists) {
+      setSelectedChar(null)
+    }
+  }, [filteredEntries, selectedChar])
 
   return (
     <div className="library-page">
@@ -75,9 +83,9 @@ export function LibraryPage() {
               className="library-page__detail-card"
               bordered={false}
               extra={
-                <a onClick={() => setSelectedChar(null)} style={{ cursor: 'pointer' }}>
+                <Button size="small" onClick={() => setSelectedChar(null)}>
                   关闭
-                </a>
+                </Button>
               }
             >
               <div

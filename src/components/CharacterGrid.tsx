@@ -42,12 +42,16 @@ export function CharacterGrid({ characters, selectedChar, onSelect }: CharacterG
                 className="character-card__swatch character-card__swatch--wood"
                 style={{ background: item.woodTone }}
                 title={`木纹色：${item.woodTone}`}
-              />
+              >
+                <span className="character-card__swatch-label">木</span>
+              </div>
               <div
                 className="character-card__swatch character-card__swatch--ink"
                 style={{ background: item.inkShade }}
                 title={`墨色：${item.inkShade}`}
-              />
+              >
+                <span className="character-card__swatch-label">墨</span>
+              </div>
             </div>
           </div>
         )
