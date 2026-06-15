@@ -1,6 +1,22 @@
-import type { FavoriteItem } from '../types'
+import type { FavoriteItem, WritingMode, SpacingMode } from '../types'
 
 const STORAGE_KEY = 'movable-type-favorites'
+const COMPOSE_STATE_KEY = 'movable-type-compose-state'
+
+interface ComposeStateCache {
+  sentence: string
+  writingMode: WritingMode
+  spacing: SpacingMode
+}
+
+function isComposeStateCache(value: unknown): value is ComposeStateCache {
+  if (!value || typeof value !== 'object') return false
+  const obj = value as Record<string, unknown>
+  if (typeof obj.sentence !== 'string') return false
+  if (obj.writingMode !== 'horizontal' && obj.writingMode !== 'vertical') return false
+  if (obj.spacing !== 'compact' && obj.spacing !== 'default' && obj.spacing !== 'loose') return false
+  return true
+}
 
 function isFavoriteItem(value: unknown): value is FavoriteItem {
   if (!value || typeof value !== 'object') return false
@@ -64,4 +80,57 @@ export function removeFavorite(id: string): FavoriteItem[] {
 export function hasFavoriteName(name: string): boolean {
   const normalized = name.trim()
   return loadFavorites().some((f) => f.name.trim() === normalized)
+}
+
+export function loadComposeState(): ComposeStateCache | null {
+  try {
+    const raw = localStorage.getItem(COMPOSE_STATE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw)
+    return isComposeStateCache(parsed) ? parsed : null
+  } catch {
+    return null
+  }
+}
+
+export function saveComposeSentence(sentence: string): void {
+  try {
+    const current = loadComposeState()
+    const data: ComposeStateCache = {
+      sentence,
+      writingMode: current?.writingMode ?? 'horizontal',
+      spacing: current?.spacing ?? 'default',
+    }
+    localStorage.setItem(COMPOSE_STATE_KEY, JSON.stringify(data))
+  } catch {
+    // storage full or unavailable — silently ignore
+  }
+}
+
+export function saveComposeWritingMode(writingMode: WritingMode): void {
+  try {
+    const current = loadComposeState()
+    const data: ComposeStateCache = {
+      sentence: current?.sentence ?? '',
+      writingMode,
+      spacing: current?.spacing ?? 'default',
+    }
+    localStorage.setItem(COMPOSE_STATE_KEY, JSON.stringify(data))
+  } catch {
+    // storage full or unavailable — silently ignore
+  }
+}
+
+export function saveComposeSpacing(spacing: SpacingMode): void {
+  try {
+    const current = loadComposeState()
+    const data: ComposeStateCache = {
+      sentence: current?.sentence ?? '',
+      writingMode: current?.writingMode ?? 'horizontal',
+      spacing,
+    }
+    localStorage.setItem(COMPOSE_STATE_KEY, JSON.stringify(data))
+  } catch {
+    // storage full or unavailable — silently ignore
+  }
 }

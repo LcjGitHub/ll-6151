@@ -1,7 +1,16 @@
 import { create } from 'zustand'
 import type { FavoriteItem, WritingMode, SpacingMode } from '../types'
 import { MAX_SENTENCE_LENGTH } from '../utils/mapSentence'
-import { addFavorite, hasFavoriteName, loadFavorites, removeFavorite } from '../utils/localStorage'
+import {
+  addFavorite,
+  hasFavoriteName,
+  loadFavorites,
+  removeFavorite,
+  loadComposeState,
+  saveComposeSentence,
+  saveComposeWritingMode,
+  saveComposeSpacing,
+} from '../utils/localStorage'
 
 /**
  * 排版台全局状态：短句、排版方向、收藏列表及其增删操作
@@ -25,6 +34,8 @@ interface ComposeState {
   setSpacing: (spacing: SpacingMode) => void
   /** 从 localStorage 加载收藏列表 */
   loadFavoritesFromStorage: () => void
+  /** 从 localStorage 加载排版状态（短句、排版方向、间距） */
+  loadComposeStateFromStorage: () => void
   /**
    * 新增一条收藏（含当前短句与排版方向）
    * @returns 是否保存成功（同名时返回 false）
@@ -38,29 +49,62 @@ interface ComposeState {
   replayAnimation: () => void
 }
 
+function getInitialState() {
+  const cached = loadComposeState()
+  return {
+    sentence: cached?.sentence ?? '活字印刷排版预览',
+    writingMode: cached?.writingMode ?? 'horizontal',
+    spacing: cached?.spacing ?? 'default',
+  }
+}
+
 /**
  * 排版台全局状态
  */
-export const useComposeStore = create<ComposeState>((set, get) => ({
-  sentence: '活字印刷排版预览',
-  writingMode: 'horizontal',
-  spacing: 'default',
-  favorites: [],
-  animationKey: 0,
+export const useComposeStore = create<ComposeState>((set, get) => {
+  const initial = getInitialState()
 
-  setSentence: (text) =>
-    set({
-      sentence: Array.from(text).slice(0, MAX_SENTENCE_LENGTH).join(''),
-      animationKey: get().animationKey + 1,
-    }),
+  return {
+    sentence: initial.sentence,
+    writingMode: initial.writingMode,
+    spacing: initial.spacing,
+    favorites: [],
+    animationKey: 0,
 
-  setWritingMode: (mode) => set({ writingMode: mode }),
+    setSentence: (text) => {
+      const truncated = Array.from(text).slice(0, MAX_SENTENCE_LENGTH).join('')
+      saveComposeSentence(truncated)
+      set({
+        sentence: truncated,
+        animationKey: get().animationKey + 1,
+      })
+    },
 
-  setSpacing: (spacing) => set({ spacing }),
+    setWritingMode: (mode) => {
+      saveComposeWritingMode(mode)
+      set({ writingMode: mode })
+    },
 
-  loadFavoritesFromStorage: () => {
-    set({ favorites: loadFavorites() })
-  },
+    setSpacing: (spacing) => {
+      saveComposeSpacing(spacing)
+      set({ spacing })
+    },
+
+    loadFavoritesFromStorage: () => {
+      set({ favorites: loadFavorites() })
+    },
+
+    loadComposeStateFromStorage: () => {
+      const cached = loadComposeState()
+      if (cached) {
+        set({
+          sentence: cached.sentence,
+          writingMode: cached.writingMode,
+          spacing: cached.spacing,
+          animationKey: get().animationKey + 1,
+        })
+      }
+    },
 
   addFavoriteItem: (name) => {
     const trimmed = name.trim()
@@ -85,6 +129,8 @@ export const useComposeStore = create<ComposeState>((set, get) => ({
   },
 
   restoreFavorite: (item) => {
+    saveComposeSentence(item.sentence)
+    saveComposeWritingMode(item.writingMode)
     set({
       sentence: item.sentence,
       writingMode: item.writingMode,
@@ -95,4 +141,4 @@ export const useComposeStore = create<ComposeState>((set, get) => ({
   replayAnimation: () => {
     set({ animationKey: get().animationKey + 1 })
   },
-}))
+}})
