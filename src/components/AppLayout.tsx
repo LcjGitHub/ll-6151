@@ -36,6 +36,12 @@ export function AppLayout() {
           >
             字库查阅
           </Link>
+          <Link
+            to="/comparison"
+            className={`app-layout__link ${location.pathname === '/comparison' ? 'app-layout__link--active' : ''}`}
+          >
+            对照预览
+          </Link>
         </nav>
       </header>
       <main className="app-layout__main">

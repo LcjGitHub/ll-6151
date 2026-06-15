@@ -7,6 +7,7 @@ import { AppLayout } from './components/AppLayout'
 import { HomePage } from './pages/HomePage'
 import { ComposePage } from './pages/ComposePage'
 import { LibraryPage } from './pages/LibraryPage'
+import { ComparisonPage } from './pages/ComparisonPage'
 import './styles/global.css'
 
 createRoot(document.getElementById('root')!).render(
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
             <Route index element={<HomePage />} />
             <Route path="compose" element={<ComposePage />} />
             <Route path="library" element={<LibraryPage />} />
+            <Route path="comparison" element={<ComparisonPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

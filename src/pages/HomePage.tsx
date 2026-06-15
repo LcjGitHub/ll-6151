@@ -22,9 +22,14 @@ export function HomePage() {
           输入不超过 {MAX_SENTENCE_LENGTH} 字的短句，系统将逐字映射 Mock 字库，
           以木刻质感字块呈现排版效果，支持横排与竖排切换。
         </Paragraph>
-        <Link to="/compose" className="home-page__cta">
-          进入排版台 →
-        </Link>
+        <div className="home-page__cta-group">
+          <Link to="/compose" className="home-page__cta">
+            进入排版台 →
+          </Link>
+          <Link to="/comparison" className="home-page__cta home-page__cta--outline">
+            对照预览 ⇔
+          </Link>
+        </div>
       </section>
 
       <Row gutter={[16, 16]} className="home-page__features">

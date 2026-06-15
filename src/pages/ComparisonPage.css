@@ -1,0 +1,52 @@
+.comparison-page__title {
+  margin-bottom: 1.25rem !important;
+  color: #3d2b1f !important;
+  letter-spacing: 0.08em;
+}
+
+.comparison-page__panel {
+  margin-bottom: 1.5rem;
+  border-radius: 12px !important;
+  background: #fff !important;
+}
+
+.comparison-page__input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comparison-page__input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.comparison-page__input {
+  font-family: 'STKaiti', 'KaiTi', '楷体', serif;
+  font-size: 1.1rem;
+}
+
+.comparison-page__stats {
+  display: flex;
+  gap: 2rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #f0e8dc;
+}
+
+.comparison-page__preview-card {
+  border-radius: 12px !important;
+  background: #fff !important;
+}
+
+.comparison-page__preview-card .ant-card-head-title {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+  .comparison-page__stats {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}

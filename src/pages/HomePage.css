@@ -21,6 +21,14 @@
   line-height: 1.7;
 }
 
+.home-page__cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .home-page__cta {
   display: inline-block;
   padding: 0.65rem 1.75rem;
@@ -38,6 +46,19 @@
   transform: translateY(-2px);
   box-shadow: 0 5px 14px rgba(139, 105, 20, 0.45);
   color: #fff;
+}
+
+.home-page__cta--outline {
+  background: transparent;
+  color: #8b6914;
+  border: 2px solid #8b6914;
+  box-shadow: none;
+}
+
+.home-page__cta--outline:hover {
+  background: #8b6914;
+  color: #fff;
+  box-shadow: 0 5px 14px rgba(139, 105, 20, 0.35);
 }
 
 .home-page__card {
