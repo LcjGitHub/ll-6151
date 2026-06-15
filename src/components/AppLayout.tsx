@@ -30,6 +30,12 @@ export function AppLayout() {
           >
             排版台
           </Link>
+          <Link
+            to="/library"
+            className={`app-layout__link ${location.pathname === '/library' ? 'app-layout__link--active' : ''}`}
+          >
+            字库查阅
+          </Link>
         </nav>
       </header>
       <main className="app-layout__main">

@@ -6,6 +6,7 @@ import zhCN from 'antd/locale/zh_CN'
 import { AppLayout } from './components/AppLayout'
 import { HomePage } from './pages/HomePage'
 import { ComposePage } from './pages/ComposePage'
+import { LibraryPage } from './pages/LibraryPage'
 import './styles/global.css'
 
 createRoot(document.getElementById('root')!).render(
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
           <Route element={<AppLayout />}>
             <Route index element={<HomePage />} />
             <Route path="compose" element={<ComposePage />} />
+            <Route path="library" element={<LibraryPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

@@ -37,3 +37,10 @@ export function getLibrarySize(): number {
 export function getAllCharacters(): string[] {
   return Array.from(characterMap.keys())
 }
+
+/**
+ * 获取字库全部字模条目列表（含完整木纹/墨色信息）
+ */
+export function getAllCharacterEntries(): TypeCharacter[] {
+  return Array.from(characterMap.values())
+}
