@@ -1,0 +1,77 @@
+.favorite-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.favorite-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.85rem 1rem;
+  background: #fffdf8;
+  border: 1px solid #e8dfd0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  user-select: none;
+}
+
+.favorite-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(61, 43, 31, 0.12);
+  border-color: #c4a574;
+}
+
+.favorite-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.favorite-card__name {
+  font-size: 0.95rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.favorite-card__sentence {
+  font-family: 'STKaiti', 'KaiTi', '楷体', serif;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.favorite-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+}
+
+.favorite-card__time {
+  font-size: 0.72rem;
+  color: #a08060;
+}
+
+.favorite-card__actions {
+  display: flex;
+  gap: 0;
+}
+
+.favorite-card__actions .ant-btn {
+  padding: 0 6px;
+  font-size: 0.72rem;
+}
+
+.favorite-list__empty {
+  padding: 2rem 1rem;
+  text-align: center;
+}

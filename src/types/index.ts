@@ -19,6 +19,15 @@ export interface TypeCharacterLibrary {
 /** 排版方向 */
 export type WritingMode = 'horizontal' | 'vertical'
 
+/** 短句收藏条目 */
+export interface FavoriteItem {
+  id: string
+  name: string
+  sentence: string
+  writingMode: WritingMode
+  createdAt: number
+}
+
 /** 逐字映射结果 */
 export interface MappedCharacter {
   char: string
