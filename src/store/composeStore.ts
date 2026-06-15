@@ -9,7 +9,6 @@ import {
   loadComposeState,
   saveComposeSentence,
   saveComposeWritingMode,
-  saveComposeSpacing,
 } from '../utils/localStorage'
 
 /**
@@ -34,8 +33,6 @@ interface ComposeState {
   setSpacing: (spacing: SpacingMode) => void
   /** 从 localStorage 加载收藏列表 */
   loadFavoritesFromStorage: () => void
-  /** 从 localStorage 加载排版状态（短句、排版方向、间距） */
-  loadComposeStateFromStorage: () => void
   /**
    * 新增一条收藏（含当前短句与排版方向）
    * @returns 是否保存成功（同名时返回 false）
@@ -49,27 +46,19 @@ interface ComposeState {
   replayAnimation: () => void
 }
 
-function getInitialState() {
-  const cached = loadComposeState()
-  return {
-    sentence: cached?.sentence ?? '活字印刷排版预览',
-    writingMode: cached?.writingMode ?? 'horizontal',
-    spacing: cached?.spacing ?? 'default',
-  }
-}
-
 /**
  * 排版台全局状态
  */
 export const useComposeStore = create<ComposeState>((set, get) => {
-  const initial = getInitialState()
+  const cached = loadComposeState()
+  const hasCache = cached !== null
 
   return {
-    sentence: initial.sentence,
-    writingMode: initial.writingMode,
-    spacing: initial.spacing,
+    sentence: cached?.sentence ?? '活字印刷排版预览',
+    writingMode: cached?.writingMode ?? 'horizontal',
+    spacing: 'default',
     favorites: [],
-    animationKey: 0,
+    animationKey: hasCache ? 1 : 0,
 
     setSentence: (text) => {
       const truncated = Array.from(text).slice(0, MAX_SENTENCE_LENGTH).join('')
@@ -85,60 +74,46 @@ export const useComposeStore = create<ComposeState>((set, get) => {
       set({ writingMode: mode })
     },
 
-    setSpacing: (spacing) => {
-      saveComposeSpacing(spacing)
-      set({ spacing })
-    },
+    setSpacing: (spacing) => set({ spacing }),
 
     loadFavoritesFromStorage: () => {
       set({ favorites: loadFavorites() })
     },
 
-    loadComposeStateFromStorage: () => {
-      const cached = loadComposeState()
-      if (cached) {
-        set({
-          sentence: cached.sentence,
-          writingMode: cached.writingMode,
-          spacing: cached.spacing,
-          animationKey: get().animationKey + 1,
-        })
+    addFavoriteItem: (name) => {
+      const trimmed = name.trim()
+      if (!trimmed) return false
+      if (hasFavoriteName(trimmed)) return false
+      const { sentence, writingMode } = get()
+      const item: FavoriteItem = {
+        id: crypto.randomUUID(),
+        name: trimmed,
+        sentence,
+        writingMode,
+        createdAt: Date.now(),
       }
+      const updated = addFavorite(item)
+      set({ favorites: updated })
+      return true
     },
 
-  addFavoriteItem: (name) => {
-    const trimmed = name.trim()
-    if (!trimmed) return false
-    if (hasFavoriteName(trimmed)) return false
-    const { sentence, writingMode } = get()
-    const item: FavoriteItem = {
-      id: crypto.randomUUID(),
-      name: trimmed,
-      sentence,
-      writingMode,
-      createdAt: Date.now(),
-    }
-    const updated = addFavorite(item)
-    set({ favorites: updated })
-    return true
-  },
+    removeFavoriteItem: (id) => {
+      const updated = removeFavorite(id)
+      set({ favorites: updated })
+    },
 
-  removeFavoriteItem: (id) => {
-    const updated = removeFavorite(id)
-    set({ favorites: updated })
-  },
+    restoreFavorite: (item) => {
+      saveComposeSentence(item.sentence)
+      saveComposeWritingMode(item.writingMode)
+      set({
+        sentence: item.sentence,
+        writingMode: item.writingMode,
+        animationKey: get().animationKey + 1,
+      })
+    },
 
-  restoreFavorite: (item) => {
-    saveComposeSentence(item.sentence)
-    saveComposeWritingMode(item.writingMode)
-    set({
-      sentence: item.sentence,
-      writingMode: item.writingMode,
-      animationKey: get().animationKey + 1,
-    })
-  },
-
-  replayAnimation: () => {
-    set({ animationKey: get().animationKey + 1 })
-  },
-}})
+    replayAnimation: () => {
+      set({ animationKey: get().animationKey + 1 })
+    },
+  }
+})

@@ -25,7 +25,6 @@ export function ComposePage() {
     setWritingMode,
     setSpacing,
     loadFavoritesFromStorage,
-    loadComposeStateFromStorage,
     addFavoriteItem,
     removeFavoriteItem,
     restoreFavorite,
@@ -36,10 +35,10 @@ export function ComposePage() {
   const [favoriteName, setFavoriteName] = useState('')
   const [messageApi, contextHolder] = message.useMessage()
 
+  // 页面加载时从 localStorage 读取收藏列表
   useEffect(() => {
     loadFavoritesFromStorage()
-    loadComposeStateFromStorage()
-  }, [loadFavoritesFromStorage, loadComposeStateFromStorage])
+  }, [loadFavoritesFromStorage])
 
   // 将当前短句逐字映射为字模
   const mapped = useMemo(() => mapSentenceToGlyphs(sentence), [sentence])
