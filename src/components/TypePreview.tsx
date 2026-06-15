@@ -1,5 +1,5 @@
 import { Alert } from 'antd'
-import type { MappedCharacter, WritingMode } from '../types'
+import type { MappedCharacter, WritingMode, SpacingMode } from '../types'
 import { TypeBlock } from './TypeBlock'
 import './TypePreview.css'
 
@@ -8,6 +8,8 @@ interface TypePreviewProps {
   mapped: MappedCharacter[]
   /** 排版方向 */
   writingMode: WritingMode
+  /** 字块间距档位 */
+  spacing: SpacingMode
   /** 缺字列表 */
   missingChars: string[]
   /** 动画触发键（变化时强制字块入场动画重播） */
@@ -20,7 +22,7 @@ interface TypePreviewProps {
  * 活字排版预览区
  * 支持横排 / 竖排 writing-mode 切换
  */
-export function TypePreview({ mapped, writingMode, missingChars, animationKey, onReplace }: TypePreviewProps) {
+export function TypePreview({ mapped, writingMode, spacing, missingChars, animationKey, onReplace }: TypePreviewProps) {
   const isVertical = writingMode === 'vertical'
 
   return (
@@ -36,7 +38,7 @@ export function TypePreview({ mapped, writingMode, missingChars, animationKey, o
       )}
 
       <div
-        className={`type-preview__stage ${isVertical ? 'type-preview__stage--vertical' : 'type-preview__stage--horizontal'}`}
+        className={`type-preview__stage ${isVertical ? 'type-preview__stage--vertical' : 'type-preview__stage--horizontal'} type-preview__stage--spacing-${spacing}`}
         style={{ writingMode: isVertical ? 'vertical-rl' : 'horizontal-tb' }}
       >
         {mapped.length === 0 ? (

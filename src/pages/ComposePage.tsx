@@ -6,7 +6,7 @@ import { TypePreview } from '../components/TypePreview'
 import { FavoriteList } from '../components/FavoriteList'
 import { QuickPhrases } from '../components/QuickPhrases'
 import { getMissingCharacters, mapSentenceToGlyphs, MAX_SENTENCE_LENGTH } from '../utils/mapSentence'
-import type { FavoriteItem, WritingMode } from '../types'
+import type { FavoriteItem, WritingMode, SpacingMode } from '../types'
 import './ComposePage.css'
 
 const { Title, Text } = Typography
@@ -18,10 +18,12 @@ export function ComposePage() {
   const {
     sentence,
     writingMode,
+    spacing,
     favorites,
     animationKey,
     setSentence,
     setWritingMode,
+    setSpacing,
     loadFavoritesFromStorage,
     addFavoriteItem,
     removeFavoriteItem,
@@ -100,16 +102,30 @@ export function ComposePage() {
           </div>
 
           <div className="compose-page__control-row">
-            <div className="compose-page__control-label">
-              <Text strong>排版方向</Text>
-              <Segmented
-                value={writingMode}
-                onChange={(value) => setWritingMode(value as WritingMode)}
-                options={[
-                  { label: '横排', value: 'horizontal' },
-                  { label: '竖排', value: 'vertical' },
-                ]}
-              />
+            <div className="compose-page__control-group">
+              <div className="compose-page__control-label">
+                <Text strong>排版方向</Text>
+                <Segmented
+                  value={writingMode}
+                  onChange={(value) => setWritingMode(value as WritingMode)}
+                  options={[
+                    { label: '横排', value: 'horizontal' },
+                    { label: '竖排', value: 'vertical' },
+                  ]}
+                />
+              </div>
+              <div className="compose-page__control-label">
+                <Text strong>字块间距</Text>
+                <Segmented
+                  value={spacing}
+                  onChange={(value) => setSpacing(value as SpacingMode)}
+                  options={[
+                    { label: '紧凑', value: 'compact' },
+                    { label: '默认', value: 'default' },
+                    { label: '宽松', value: 'loose' },
+                  ]}
+                />
+              </div>
             </div>
             <Button
               type="primary"
@@ -138,6 +154,7 @@ export function ComposePage() {
           <TypePreview
             mapped={mapped}
             writingMode={writingMode}
+            spacing={spacing}
             missingChars={missingChars}
             animationKey={animationKey}
           />

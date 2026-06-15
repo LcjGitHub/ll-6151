@@ -25,7 +25,6 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
 }
 
 .type-preview__stage--vertical {
@@ -34,7 +33,21 @@
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
+}
+
+.type-preview__stage--spacing-compact.type-preview__stage--horizontal,
+.type-preview__stage--spacing-compact.type-preview__stage--vertical {
+  gap: 0.25rem;
+}
+
+.type-preview__stage--spacing-default.type-preview__stage--horizontal,
+.type-preview__stage--spacing-default.type-preview__stage--vertical {
   gap: 0.5rem;
+}
+
+.type-preview__stage--spacing-loose.type-preview__stage--horizontal,
+.type-preview__stage--spacing-loose.type-preview__stage--vertical {
+  gap: 1rem;
 }
 
 .type-preview__empty {

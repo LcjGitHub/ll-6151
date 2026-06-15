@@ -28,6 +28,9 @@ export interface TypeCharacterLibrary {
 /** 排版方向 */
 export type WritingMode = 'horizontal' | 'vertical'
 
+/** 字块间距档位 */
+export type SpacingMode = 'compact' | 'default' | 'loose'
+
 /** 短句收藏条目 */
 export interface FavoriteItem {
   id: string

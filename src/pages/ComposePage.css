@@ -28,6 +28,13 @@
   gap: 1rem;
 }
 
+.compose-page__control-group {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
 .compose-page__control-label {
   display: flex;
   align-items: center;
