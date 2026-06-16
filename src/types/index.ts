@@ -49,3 +49,39 @@ export interface MappedCharacter {
   /** 字模数据，缺字时为 null */
   glyph: TypeCharacter | null
 }
+
+/** 候选字及其评分结果 */
+export interface ScoredCandidate {
+  /** 候选汉字 */
+  char: string
+  /** 相似度评分，分数越高越推荐 */
+  score: number
+}
+
+/** 相似度评分权重配置 */
+export interface SimilarityScoreConfig {
+  /** 形近字表匹配的基础分数 */
+  similarCharBaseScore: number
+  /** 同部首匹配的分数 */
+  sameRadicalScore: number
+  /** 左侧部首位置匹配的分数 */
+  leftRadicalMatchScore: number
+  /** 顶部部首位置匹配的分数 */
+  topRadicalMatchScore: number
+  /** 字库中不存在的惩罚分数 */
+  notInLibraryPenalty: number
+  /** 自身匹配的惩罚分数（用于排除自身） */
+  selfMatchPenalty: number
+  /** 笔画数相差 0 时的分数 */
+  strokeDiff0Score: number
+  /** 笔画数相差 1 时的分数 */
+  strokeDiff1Score: number
+  /** 笔画数相差 2 时的分数 */
+  strokeDiff2Score: number
+  /** 笔画数相差 3 时的分数 */
+  strokeDiff3Score: number
+  /** 兜底推荐的基础分数 */
+  fallbackBaseScore: number
+  /** 兜底推荐时同部首的额外分数 */
+  fallbackSameRadicalBonus: number
+}
