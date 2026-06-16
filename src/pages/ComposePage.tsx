@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Button, Card, Input, message, Modal, Segmented, Space, Statistic, Typography } from 'antd'
-import { ReloadOutlined, SaveOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { FullscreenOutlined, ReloadOutlined, SaveOutlined, ShareAltOutlined } from '@ant-design/icons'
 import { useComposeStore } from '../store/composeStore'
 import { TypePreview } from '../components/TypePreview'
+import { FullscreenPreview } from '../components/FullscreenPreview'
 import { FavoriteList } from '../components/FavoriteList'
 import { QuickPhrases } from '../components/QuickPhrases'
 import { ComposeHistory } from '../components/ComposeHistory'
@@ -47,6 +48,7 @@ export function ComposePage() {
   const [favoriteName, setFavoriteName] = useState('')
   const [shareModalOpen, setShareModalOpen] = useState(false)
   const [shareLink, setShareLink] = useState('')
+  const [fullscreenOpen, setFullscreenOpen] = useState(false)
   const [messageApi, contextHolder] = message.useMessage()
 
   // 页面加载时从 localStorage 读取收藏列表，并解析 URL 分享参数
@@ -233,14 +235,24 @@ export function ComposePage() {
           className="compose-page__preview-card"
           bordered={false}
           extra={
-            <Button
-              icon={<ReloadOutlined />}
-              onClick={replayAnimation}
-              disabled={sentence.trim().length === 0}
-              size="small"
-            >
-              重新播放
-            </Button>
+            <Space size="small">
+              <Button
+                icon={<FullscreenOutlined />}
+                onClick={() => setFullscreenOpen(true)}
+                disabled={sentence.trim().length === 0}
+                size="small"
+              >
+                全屏预览
+              </Button>
+              <Button
+                icon={<ReloadOutlined />}
+                onClick={replayAnimation}
+                disabled={sentence.trim().length === 0}
+                size="small"
+              >
+                重新播放
+              </Button>
+            </Space>
           }
         >
           <TypePreview
@@ -335,6 +347,19 @@ export function ComposePage() {
           </Button>
         </Space>
       </Modal>
+
+      <FullscreenPreview
+        visible={fullscreenOpen}
+        onClose={() => setFullscreenOpen(false)}
+        mapped={mapped}
+        writingMode={writingMode}
+        spacing={spacing}
+        fontSize={fontSize}
+        missingChars={missingChars}
+        animationKey={animationKey}
+        sentence={sentence}
+        onReplace={handleReplaceCharacter}
+      />
     </div>
   )
 }
