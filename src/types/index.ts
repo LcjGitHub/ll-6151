@@ -31,6 +31,9 @@ export type WritingMode = 'horizontal' | 'vertical'
 /** 字块间距档位 */
 export type SpacingMode = 'compact' | 'default' | 'loose'
 
+/** 字块字号档位 */
+export type FontSizeMode = 'small' | 'medium' | 'large'
+
 /** 短句收藏条目 */
 export interface FavoriteItem {
   id: string

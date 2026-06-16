@@ -7,7 +7,7 @@ import { FavoriteList } from '../components/FavoriteList'
 import { QuickPhrases } from '../components/QuickPhrases'
 import { ComposeHistory } from '../components/ComposeHistory'
 import { getMissingCharacters, mapSentenceToGlyphs, MAX_SENTENCE_LENGTH } from '../utils/mapSentence'
-import type { FavoriteItem, HistoryItem, WritingMode, SpacingMode } from '../types'
+import type { FavoriteItem, HistoryItem, WritingMode, SpacingMode, FontSizeMode } from '../types'
 import './ComposePage.css'
 
 const { Title, Text } = Typography
@@ -20,12 +20,14 @@ export function ComposePage() {
     sentence,
     writingMode,
     spacing,
+    fontSize,
     favorites,
     history,
     animationKey,
     setSentence,
     setWritingMode,
     setSpacing,
+    setFontSize,
     loadFavoritesFromStorage,
     loadHistoryFromStorage,
     addFavoriteItem,
@@ -154,6 +156,18 @@ export function ComposePage() {
                   ]}
                 />
               </div>
+              <div className="compose-page__control-label">
+                <Text strong>字号</Text>
+                <Segmented
+                  value={fontSize}
+                  onChange={(value) => setFontSize(value as FontSizeMode)}
+                  options={[
+                    { label: '小', value: 'small' },
+                    { label: '中', value: 'medium' },
+                    { label: '大', value: 'large' },
+                  ]}
+                />
+              </div>
             </div>
             <Button
               type="primary"
@@ -197,6 +211,7 @@ export function ComposePage() {
             mapped={mapped}
             writingMode={writingMode}
             spacing={spacing}
+            fontSize={fontSize}
             missingChars={missingChars}
             animationKey={animationKey}
             onReplace={handleReplaceCharacter}

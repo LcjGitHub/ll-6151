@@ -1,6 +1,6 @@
 import { Alert, Tag } from 'antd'
 import { useMemo } from 'react'
-import type { MappedCharacter, WritingMode, SpacingMode } from '../types'
+import type { MappedCharacter, WritingMode, SpacingMode, FontSizeMode } from '../types'
 import { TypeBlock } from './TypeBlock'
 import { recommendSimilarCharacters } from '../utils/characterRecommendation'
 import './TypePreview.css'
@@ -12,6 +12,8 @@ interface TypePreviewProps {
   writingMode: WritingMode
   /** 字块间距档位 */
   spacing: SpacingMode
+  /** 字块字号档位 */
+  fontSize: FontSizeMode
   /** 缺字列表 */
   missingChars: string[]
   /** 动画触发键（变化时强制字块入场动画重播） */
@@ -34,7 +36,7 @@ interface TypePreviewProps {
  *   不改变输入内容，纯粹重播视觉效果
  * - 入场动画位移轴随排版方向切换：横排沿 y 轴自下而上弹入，竖排沿 x 轴顺阅读流向自右而左弹入
  */
-export function TypePreview({ mapped, writingMode, spacing, missingChars, animationKey, onReplace }: TypePreviewProps) {
+export function TypePreview({ mapped, writingMode, spacing, fontSize, missingChars, animationKey, onReplace }: TypePreviewProps) {
   const isVertical = writingMode === 'vertical'
 
   const missingRecommendations = useMemo(() => {
@@ -99,6 +101,7 @@ export function TypePreview({ mapped, writingMode, spacing, missingChars, animat
               animationIndex={item.index}
               writingMode={writingMode}
               spacing={spacing}
+              fontSize={fontSize}
               onReplace={onReplace}
             />
           ))

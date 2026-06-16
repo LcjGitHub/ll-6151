@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { CSSProperties } from 'react'
 import { motion } from 'framer-motion'
-import type { MappedCharacter, SpacingMode, WritingMode } from '../types'
+import type { MappedCharacter, SpacingMode, WritingMode, FontSizeMode } from '../types'
 import { CharacterTooltip } from './CharacterTooltip'
 import './TypeBlock.css'
 
@@ -14,6 +14,8 @@ interface TypeBlockProps {
   writingMode: WritingMode
   /** 字块间距档位 */
   spacing?: SpacingMode
+  /** 字块字号档位 */
+  fontSize?: FontSizeMode
   /** 缺字替换回调，参数为 (缺字, 替换字) */
   onReplace?: (missingChar: string, replacement: string) => void
 }
@@ -27,7 +29,7 @@ interface TypeBlockProps {
  * - 横排 (horizontal)：字块从下方弹入，沿 y 轴自下而上位移
  * - 竖排 (vertical)：字块从右侧弹入，沿 x 轴自右而左位移（顺竖排阅读流向）
  */
-export function TypeBlock({ item, animationIndex, writingMode, spacing = 'default', onReplace }: TypeBlockProps) {
+export function TypeBlock({ item, animationIndex, writingMode, spacing = 'default', fontSize = 'medium', onReplace }: TypeBlockProps) {
   const { char, found, glyph } = item
   const [showTooltip, setShowTooltip] = useState(false)
 
@@ -50,7 +52,7 @@ export function TypeBlock({ item, animationIndex, writingMode, spacing = 'defaul
 
   return (
     <motion.div
-      className={`type-block ${found ? 'type-block--found' : 'type-block--missing'} type-block--spacing-${spacing}`}
+      className={`type-block ${found ? 'type-block--found' : 'type-block--missing'} type-block--spacing-${spacing} type-block--font-${fontSize}`}
       style={
         found && glyph
           ? {

@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { FavoriteItem, HistoryItem, WritingMode, SpacingMode } from '../types'
+import type { FavoriteItem, HistoryItem, WritingMode, SpacingMode, FontSizeMode } from '../types'
 import { MAX_SENTENCE_LENGTH } from '../utils/mapSentence'
 import {
   addFavorite,
@@ -27,6 +27,8 @@ interface ComposeState {
   writingMode: WritingMode
   /** 字块间距档位 */
   spacing: SpacingMode
+  /** 字块字号档位 */
+  fontSize: FontSizeMode
   /** 已收藏的短句列表 */
   favorites: FavoriteItem[]
   /** 排版历史记录列表 */
@@ -39,6 +41,8 @@ interface ComposeState {
   setWritingMode: (mode: WritingMode) => void
   /** 设置字块间距 */
   setSpacing: (spacing: SpacingMode) => void
+  /** 设置字块字号档位 */
+  setFontSize: (fontSize: FontSizeMode) => void
   /** 从 localStorage 加载收藏列表 */
   loadFavoritesFromStorage: () => void
   /**
@@ -73,6 +77,7 @@ export const useComposeStore = create<ComposeState>((set, get) => {
     sentence: cached?.sentence ?? '活字印刷排版预览',
     writingMode: cached?.writingMode ?? 'horizontal',
     spacing: 'default',
+    fontSize: 'medium',
     favorites: [],
     history: [],
     animationKey: hasCache ? 1 : 0,
@@ -95,6 +100,8 @@ export const useComposeStore = create<ComposeState>((set, get) => {
     },
 
     setSpacing: (spacing) => set({ spacing }),
+
+    setFontSize: (fontSize) => set({ fontSize }),
 
     loadFavoritesFromStorage: () => {
       set({ favorites: loadFavorites() })

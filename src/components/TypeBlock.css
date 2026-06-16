@@ -14,6 +14,36 @@
   font-size: 1.75rem;
 }
 
+.type-block--font-small {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.25rem;
+}
+
+.type-block--font-small .type-block__char {
+  font-size: 1.25rem;
+}
+
+.type-block--font-medium {
+  width: 3.25rem;
+  height: 3.25rem;
+  font-size: 1.75rem;
+}
+
+.type-block--font-medium .type-block__char {
+  font-size: 1.75rem;
+}
+
+.type-block--font-large {
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: 2.5rem;
+}
+
+.type-block--font-large .type-block__char {
+  font-size: 2.5rem;
+}
+
 .type-block--spacing-compact {
   margin: 0.25em;
 }
@@ -53,7 +83,7 @@
 
 .type-block__char {
   font-family: 'STKaiti', 'KaiTi', '楷体', serif;
-  font-size: 1.75rem;
+  font-size: inherit;
   font-weight: 600;
   line-height: 1;
   color: var(--ink-shade, #8b4513);
