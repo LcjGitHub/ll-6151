@@ -42,6 +42,12 @@ export function AppLayout() {
           >
             对照预览
           </Link>
+          <Link
+            to="/coverage"
+            className={`app-layout__link ${location.pathname === '/coverage' ? 'app-layout__link--active' : ''}`}
+          >
+            字库统计
+          </Link>
         </nav>
       </header>
       <main className="app-layout__main">

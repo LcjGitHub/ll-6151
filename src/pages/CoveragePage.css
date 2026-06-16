@@ -1,0 +1,142 @@
+.coverage-page {
+  max-width: 1280px;
+  width: calc(100% + 4rem);
+  margin: 0 -2rem;
+}
+
+.coverage-page__title {
+  margin-bottom: 1.25rem !important;
+  color: #3d2b1f !important;
+  letter-spacing: 0.08em;
+}
+
+.coverage-page__summary-card,
+.coverage-page__detail-card {
+  border-radius: 12px !important;
+  background: #fff !important;
+  margin-bottom: 1.5rem;
+}
+
+.coverage-page__progress-wrapper {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed #e8dfd0;
+}
+
+.coverage-page__progress-label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: #6b5344;
+  font-weight: 500;
+}
+
+.coverage-page__source-stats {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #e8dfd0;
+}
+
+.coverage-page__char-cell {
+  font-family: 'STKaiti', 'KaiTi', '楷体', serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #3d2b1f;
+}
+
+.coverage-page__count-tag {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.coverage-page__source-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.coverage-page__table {
+  margin-top: 0.5rem;
+}
+
+.coverage-page__table .ant-table-thead > tr > th {
+  background: #faf6f0;
+  font-weight: 600;
+  color: #5c4a3a;
+}
+
+.coverage-page__tabs .ant-tabs-nav {
+  margin-bottom: 1rem;
+}
+
+.coverage-page__tabs .ant-tabs-tab {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.coverage-page__tabs .ant-tabs-tab-active {
+  color: #8b6914 !important;
+}
+
+.coverage-page__tabs .ant-tabs-ink-bar {
+  background: #8b6914;
+}
+
+.coverage-page__refresh-btn {
+  cursor: pointer;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  color: #8b6914;
+  background: #faf6f0;
+  border: 1px solid #e0d5c5;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.coverage-page__refresh-btn:hover {
+  background: #f5efe6;
+  border-color: #c4a574;
+  color: #3d2b1f;
+}
+
+.coverage-page__unused-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.coverage-page__unused-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  background: linear-gradient(145deg, #faf6f0, #f0e8dc);
+  border: 1px solid #e0d5c5;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.coverage-page__unused-item:hover {
+  background: linear-gradient(145deg, #f5efe6, #e8dfd0);
+  border-color: #c4a574;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(61, 43, 31, 0.1);
+}
+
+.coverage-page__unused-char {
+  font-family: 'STKaiti', 'KaiTi', '楷体', serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #6b5344;
+}
+
+.coverage-page__empty {
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.coverage-page__detail-card .ant-card-head-title {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
