@@ -14,7 +14,7 @@ const { Title, Text } = Typography
  * 两侧各自独立渲染字块列表和缺字提示，中间无方向切换控件。
  */
 export function ComparisonPage() {
-  const { sentence: storeSentence, animationKey, setSentence } = useComposeStore()
+  const { sentence: storeSentence, animationKey, setSentence, fontSize, spacing } = useComposeStore()
   const [localSentence, setLocalSentence] = useState(storeSentence)
   const [animKey, setAnimKey] = useState(animationKey)
 
@@ -67,6 +67,8 @@ export function ComparisonPage() {
           mapped={mapped}
           missingChars={missingChars}
           animationKey={animKey}
+          fontSize={fontSize}
+          spacing={spacing}
         />
       </Card>
     </div>

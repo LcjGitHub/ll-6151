@@ -1,5 +1,5 @@
 import { Alert } from 'antd'
-import type { MappedCharacter } from '../types'
+import type { MappedCharacter, FontSizeMode, SpacingMode } from '../types'
 import { TypeBlock } from './TypeBlock'
 import './ComparisonPreview.css'
 
@@ -7,6 +7,8 @@ interface ComparisonPreviewProps {
   mapped: MappedCharacter[]
   missingChars: string[]
   animationKey: number
+  fontSize: FontSizeMode
+  spacing: SpacingMode
   onReplace?: (char: string) => void
 }
 
@@ -15,7 +17,7 @@ interface ComparisonPreviewProps {
  * 左右两栏分别独立渲染缺字提示（Alert）与字块列表（TypeBlock），
  * 不嵌套完整 TypePreview 整件，使两侧布局和样式完全独立可控。
  */
-export function ComparisonPreview({ mapped, missingChars, animationKey, onReplace }: ComparisonPreviewProps) {
+export function ComparisonPreview({ mapped, missingChars, animationKey, fontSize, spacing, onReplace }: ComparisonPreviewProps) {
   return (
     <div className="comparison-preview">
       <div className="comparison-preview__pane">
@@ -39,6 +41,8 @@ export function ComparisonPreview({ mapped, missingChars, animationKey, onReplac
                 item={item}
                 animationIndex={item.index}
                 writingMode="horizontal"
+                fontSize={fontSize}
+                spacing={spacing}
                 onReplace={onReplace}
               />
             ))
@@ -72,6 +76,8 @@ export function ComparisonPreview({ mapped, missingChars, animationKey, onReplac
                 item={item}
                 animationIndex={item.index}
                 writingMode="vertical"
+                fontSize={fontSize}
+                spacing={spacing}
                 onReplace={onReplace}
               />
             ))
