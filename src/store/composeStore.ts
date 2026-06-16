@@ -25,9 +25,9 @@ interface ComposeState {
   sentence: string
   /** 排版方向 */
   writingMode: WritingMode
-  /** 字块间距档位 */
+  /** 字块间距档位（仅存于页面会话内存，不写入浏览器本地存储） */
   spacing: SpacingMode
-  /** 字块字号档位 */
+  /** 字块字号档位（仅存于页面会话内存，不写入浏览器本地存储） */
   fontSize: FontSizeMode
   /** 已收藏的短句列表 */
   favorites: FavoriteItem[]

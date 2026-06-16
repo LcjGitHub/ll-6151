@@ -30,10 +30,10 @@ interface TypeBlockProps {
  * - 竖排 (vertical)：字块从右侧弹入，沿 x 轴自右而左位移（顺竖排阅读流向）
  *
  * 字号档位与间距档位叠加生效规则：
- * - 字号档位（small/medium/large）通过 type-block--font-* 类控制字块尺寸与字符大小
- * - 间距档位（compact/default/loose）通过 type-block--spacing-* 类控制字块外边距
- * - 两类样式类同时作用于同一字块组件，两者独立生效、叠加组合出 3×3 共 9 种排版效果
- * - 间距使用 em 单位，因此间距随字号档位自动等比缩放：字号越大，同档位下的间距绝对值也越大
+ * - 字号档位（小、中、大）控制字块尺寸与字符大小
+ * - 间距档位（紧凑、默认、宽松）控制字块外边距
+ * - 两类样式同时作用于同一字块组件，独立生效、叠加组合出三乘三共九种排版效果
+ * - 间距使用字体相对单位，因此间距随字号档位自动等比缩放：字号越大，同档位下间距绝对值也越大
  */
 export function TypeBlock({ item, animationIndex, writingMode, spacing = 'default', fontSize = 'medium', onReplace }: TypeBlockProps) {
   const { char, found, glyph } = item

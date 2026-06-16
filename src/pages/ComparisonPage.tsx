@@ -1,12 +1,19 @@
 import { useMemo, useState } from 'react'
-import { Card, Input, Statistic, Typography } from 'antd'
+import { Card, Input, Statistic, Tag, Typography } from 'antd'
 import { useComposeStore } from '../store/composeStore'
 import { ComparisonPreview } from '../components/ComparisonPreview'
 import { QuickPhrases } from '../components/QuickPhrases'
 import { getMissingCharacters, mapSentenceToGlyphs, MAX_SENTENCE_LENGTH } from '../utils/mapSentence'
+import type { FontSizeMode } from '../types'
 import './ComparisonPage.css'
 
 const { Title, Text } = Typography
+
+const FONT_SIZE_LABEL: Record<FontSizeMode, string> = {
+  small: '小',
+  medium: '中',
+  large: '大',
+}
 
 /**
  * 横竖对照预览页面
@@ -33,6 +40,7 @@ export function ComparisonPage() {
     <div className="comparison-page">
       <Title level={3} className="comparison-page__title">
         横竖对照预览
+        <Tag color="blue" className="comparison-page__font-tag">字号：{FONT_SIZE_LABEL[fontSize]}</Tag>
       </Title>
 
       <Card className="comparison-page__panel" bordered={false}>
