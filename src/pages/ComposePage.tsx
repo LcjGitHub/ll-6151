@@ -109,6 +109,7 @@ export function ComposePage() {
 
   const handleRestoreHistory = (item: HistoryItem) => {
     restoreHistoryItem(item)
+    messageApi.success('已恢复历史短句')
   }
 
   const handleRemoveHistory = (id: string) => {

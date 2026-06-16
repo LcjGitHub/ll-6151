@@ -1,6 +1,7 @@
-import { Button, Empty, Popconfirm, Tag, Typography } from 'antd'
+import { Button, Empty, Popconfirm, Tag, Tooltip, Typography } from 'antd'
 import { ClearOutlined, DeleteOutlined, UndoOutlined } from '@ant-design/icons'
 import type { HistoryItem } from '../types'
+import { formatRelativeTime } from '../utils/historyRecord'
 import './ComposeHistory.css'
 
 const { Text } = Typography
@@ -16,7 +17,7 @@ export function ComposeHistory({ history, onRestore, onRemove, onClearAll }: Com
   if (history.length === 0) {
     return (
       <div className="compose-history__empty">
-        <Empty description="暂无排版历史" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        <Empty description="在上方输入短句开始排版，历史记录将自动保存" image={Empty.PRESENTED_IMAGE_SIMPLE} />
       </div>
     )
   }
@@ -56,15 +57,18 @@ export function ComposeHistory({ history, onRestore, onRemove, onClearAll }: Com
               <Tag color={item.writingMode === 'vertical' ? 'gold' : 'default'}>
                 {item.writingMode === 'vertical' ? '竖排' : '横排'}
               </Tag>
-              <span className="compose-history__item-time">
-                {new Date(item.timestamp).toLocaleString('zh-CN', {
-                  month: '2-digit',
-                  day: '2-digit',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  second: '2-digit',
-                })}
-              </span>
+              <Tooltip title={new Date(item.timestamp).toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+              })}>
+                <span className="compose-history__item-time">
+                  {formatRelativeTime(item.timestamp)}
+                </span>
+              </Tooltip>
             </div>
             <Text type="secondary" className="compose-history__item-sentence">
               {item.sentence}
