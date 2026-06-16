@@ -64,6 +64,8 @@ interface ComposeState {
   removeHistoryItem: (id: string) => void
   /** 一键清空全部历史记录 */
   clearAllHistory: () => void
+  /** 从分享参数恢复短句与排版方向，并触发入场动画重播 */
+  restoreFromShareParams: (sentence: string, writingMode: WritingMode) => void
 }
 
 /**
@@ -165,6 +167,18 @@ export const useComposeStore = create<ComposeState>((set, get) => {
     clearAllHistory: () => {
       const updated = clearHistoryStorage()
       set({ history: updated })
+    },
+
+    restoreFromShareParams: (sentence, writingMode) => {
+      saveComposeSentence(sentence)
+      saveComposeWritingMode(writingMode)
+      const updated = addHistoryRecord(sentence, writingMode)
+      set({
+        sentence,
+        writingMode,
+        history: updated,
+        animationKey: get().animationKey + 1,
+      })
     },
   }
 })

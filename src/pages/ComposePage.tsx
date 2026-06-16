@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Button, Card, Input, message, Modal, Segmented, Space, Statistic, Typography } from 'antd'
-import { ReloadOutlined, SaveOutlined } from '@ant-design/icons'
+import { ReloadOutlined, SaveOutlined, ShareAltOutlined } from '@ant-design/icons'
 import { useComposeStore } from '../store/composeStore'
 import { TypePreview } from '../components/TypePreview'
 import { FavoriteList } from '../components/FavoriteList'
 import { QuickPhrases } from '../components/QuickPhrases'
 import { ComposeHistory } from '../components/ComposeHistory'
 import { getMissingCharacters, mapSentenceToGlyphs, MAX_SENTENCE_LENGTH } from '../utils/mapSentence'
+import { decodeShareParams, generateShareLink, copyToClipboard } from '../utils/shareLink'
 import type { FavoriteItem, HistoryItem, WritingMode, SpacingMode, FontSizeMode } from '../types'
 import './ComposePage.css'
 
@@ -16,6 +18,7 @@ const { Title, Text } = Typography
  * 排版台页面：输入短句、切换排版方向、预览字块，以及收藏管理
  */
 export function ComposePage() {
+  const location = useLocation()
   const {
     sentence,
     writingMode,
@@ -37,17 +40,26 @@ export function ComposePage() {
     removeHistoryItem,
     clearAllHistory,
     replayAnimation,
+    restoreFromShareParams,
   } = useComposeStore()
 
   const [saveModalOpen, setSaveModalOpen] = useState(false)
   const [favoriteName, setFavoriteName] = useState('')
+  const [shareModalOpen, setShareModalOpen] = useState(false)
+  const [shareLink, setShareLink] = useState('')
   const [messageApi, contextHolder] = message.useMessage()
 
-  // 页面加载时从 localStorage 读取收藏列表
+  // 页面加载时从 localStorage 读取收藏列表，并解析 URL 分享参数
   useEffect(() => {
     loadFavoritesFromStorage()
     loadHistoryFromStorage()
-  }, [loadFavoritesFromStorage, loadHistoryFromStorage])
+
+    const params = decodeShareParams(location.search)
+    if (params) {
+      restoreFromShareParams(params.sentence, params.writingMode)
+      messageApi.success('已加载分享内容')
+    }
+  }, [loadFavoritesFromStorage, loadHistoryFromStorage, location.search, restoreFromShareParams, messageApi])
 
   // 将当前短句逐字映射为字模
   const mapped = useMemo(() => mapSentenceToGlyphs(sentence), [sentence])
@@ -104,6 +116,21 @@ export function ComposePage() {
   const handleClearHistory = () => {
     clearAllHistory()
     messageApi.success('已清空全部排版历史')
+  }
+
+  const handleOpenShareModal = () => {
+    const link = generateShareLink({ sentence, writingMode })
+    setShareLink(link)
+    setShareModalOpen(true)
+  }
+
+  const handleCopyShareLink = async () => {
+    const success = await copyToClipboard(shareLink)
+    if (success) {
+      messageApi.success('分享链接已复制到剪贴板')
+    } else {
+      messageApi.error('复制失败，请手动复制')
+    }
   }
 
   return (
@@ -169,14 +196,23 @@ export function ComposePage() {
                 />
               </div>
             </div>
-            <Button
-              type="primary"
-              icon={<SaveOutlined />}
-              onClick={handleOpenSaveModal}
-              disabled={sentence.trim().length === 0}
-            >
-              收藏当前排版
-            </Button>
+            <Space>
+              <Button
+                type="primary"
+                icon={<SaveOutlined />}
+                onClick={handleOpenSaveModal}
+                disabled={sentence.trim().length === 0}
+              >
+                收藏当前排版
+              </Button>
+              <Button
+                icon={<ShareAltOutlined />}
+                onClick={handleOpenShareModal}
+                disabled={sentence.trim().length === 0}
+              >
+                生成分享链接
+              </Button>
+            </Space>
           </div>
 
           <div className="compose-page__stats">
@@ -262,6 +298,41 @@ export function ComposePage() {
             showCount
             onPressEnter={handleSave}
           />
+        </Space>
+      </Modal>
+
+      <Modal
+        title="分享当前排版"
+        open={shareModalOpen}
+        onCancel={() => setShareModalOpen(false)}
+        footer={null}
+      >
+        <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+          <div>
+            <Text type="secondary">当前短句：</Text>
+            <Text strong className="compose-page__modal-sentence">{sentence}</Text>
+          </div>
+          <div>
+            <Text type="secondary">排版方向：</Text>
+            <Text strong>{writingMode === 'vertical' ? '竖排' : '横排'}</Text>
+          </div>
+          <div>
+            <Text type="secondary">分享链接：</Text>
+            <Input.TextArea
+              value={shareLink}
+              readOnly
+              autoSize={{ minRows: 2, maxRows: 4 }}
+              style={{ marginTop: 8, fontFamily: 'monospace', fontSize: 12 }}
+            />
+          </div>
+          <Button
+            type="primary"
+            icon={<ShareAltOutlined />}
+            onClick={handleCopyShareLink}
+            block
+          >
+            复制链接
+          </Button>
         </Space>
       </Modal>
     </div>
