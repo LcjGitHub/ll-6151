@@ -5,8 +5,9 @@ import { useComposeStore } from '../store/composeStore'
 import { TypePreview } from '../components/TypePreview'
 import { FavoriteList } from '../components/FavoriteList'
 import { QuickPhrases } from '../components/QuickPhrases'
+import { ComposeHistory } from '../components/ComposeHistory'
 import { getMissingCharacters, mapSentenceToGlyphs, MAX_SENTENCE_LENGTH } from '../utils/mapSentence'
-import type { FavoriteItem, WritingMode, SpacingMode } from '../types'
+import type { FavoriteItem, HistoryItem, WritingMode, SpacingMode } from '../types'
 import './ComposePage.css'
 
 const { Title, Text } = Typography
@@ -20,14 +21,19 @@ export function ComposePage() {
     writingMode,
     spacing,
     favorites,
+    history,
     animationKey,
     setSentence,
     setWritingMode,
     setSpacing,
     loadFavoritesFromStorage,
+    loadHistoryFromStorage,
     addFavoriteItem,
     removeFavoriteItem,
     restoreFavorite,
+    restoreHistoryItem,
+    removeHistoryItem,
+    clearAllHistory,
     replayAnimation,
   } = useComposeStore()
 
@@ -38,7 +44,8 @@ export function ComposePage() {
   // 页面加载时从 localStorage 读取收藏列表
   useEffect(() => {
     loadFavoritesFromStorage()
-  }, [loadFavoritesFromStorage])
+    loadHistoryFromStorage()
+  }, [loadFavoritesFromStorage, loadHistoryFromStorage])
 
   // 将当前短句逐字映射为字模
   const mapped = useMemo(() => mapSentenceToGlyphs(sentence), [sentence])
@@ -82,6 +89,19 @@ export function ComposePage() {
     const newSentence = sentence.split(missingChar).join(replacement)
     setSentence(newSentence)
     messageApi.success(`已将「${missingChar}」全部替换为「${replacement}」`)
+  }
+
+  const handleRestoreHistory = (item: HistoryItem) => {
+    restoreHistoryItem(item)
+  }
+
+  const handleRemoveHistory = (id: string) => {
+    removeHistoryItem(id)
+  }
+
+  const handleClearHistory = () => {
+    clearAllHistory()
+    messageApi.success('已清空全部排版历史')
   }
 
   return (
@@ -191,6 +211,15 @@ export function ComposePage() {
           />
         </Card>
       </div>
+
+      <Card title="排版历史" className="compose-page__history-card" bordered={false}>
+        <ComposeHistory
+          history={history}
+          onRestore={handleRestoreHistory}
+          onRemove={handleRemoveHistory}
+          onClearAll={handleClearHistory}
+        />
+      </Card>
 
       <Modal
         title="收藏当前排版"

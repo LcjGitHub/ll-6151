@@ -52,6 +52,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .compose-page__preview-card {
@@ -70,6 +71,16 @@
 }
 
 .compose-page__favorites-card .ant-card-head-title {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.compose-page__history-card {
+  border-radius: 12px !important;
+  background: #fff !important;
+}
+
+.compose-page__history-card .ant-card-head-title {
   font-weight: 600;
   letter-spacing: 0.05em;
 }

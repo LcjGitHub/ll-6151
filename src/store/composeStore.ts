@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { FavoriteItem, WritingMode, SpacingMode } from '../types'
+import type { FavoriteItem, HistoryItem, WritingMode, SpacingMode } from '../types'
 import { MAX_SENTENCE_LENGTH } from '../utils/mapSentence'
 import {
   addFavorite,
@@ -10,6 +10,12 @@ import {
   saveComposeSentence,
   saveComposeWritingMode,
 } from '../utils/localStorage'
+import {
+  addHistoryRecord,
+  clearHistory as clearHistoryStorage,
+  loadHistory,
+  removeHistoryRecord,
+} from '../utils/historyRecord'
 
 /**
  * 排版台全局状态：短句、排版方向、收藏列表及其增删操作
@@ -23,6 +29,8 @@ interface ComposeState {
   spacing: SpacingMode
   /** 已收藏的短句列表 */
   favorites: FavoriteItem[]
+  /** 排版历史记录列表 */
+  history: HistoryItem[]
   /** 字块入场动画序号（每次选择/更新短句时递增，用于强制重播动画） */
   animationKey: number
   /** 更新短句（自动截断至最大长度），并递增动画序号触发入场动画重播 */
@@ -44,6 +52,14 @@ interface ComposeState {
   restoreFavorite: (item: FavoriteItem) => void
   /** 仅递增动画序号，触发所有字块重新播放入场动画，不改变输入内容 */
   replayAnimation: () => void
+  /** 从 localStorage 加载历史记录 */
+  loadHistoryFromStorage: () => void
+  /** 将某条历史记录恢复为当前短句与排版方向，并刷新字块预览 */
+  restoreHistoryItem: (item: HistoryItem) => void
+  /** 按 id 删除一条历史记录 */
+  removeHistoryItem: (id: string) => void
+  /** 一键清空全部历史记录 */
+  clearAllHistory: () => void
 }
 
 /**
@@ -58,20 +74,24 @@ export const useComposeStore = create<ComposeState>((set, get) => {
     writingMode: cached?.writingMode ?? 'horizontal',
     spacing: 'default',
     favorites: [],
+    history: [],
     animationKey: hasCache ? 1 : 0,
 
     setSentence: (text) => {
       const truncated = Array.from(text).slice(0, MAX_SENTENCE_LENGTH).join('')
       saveComposeSentence(truncated)
+      const updated = addHistoryRecord(truncated, get().writingMode)
       set({
         sentence: truncated,
+        history: updated,
         animationKey: get().animationKey + 1,
       })
     },
 
     setWritingMode: (mode) => {
       saveComposeWritingMode(mode)
-      set({ writingMode: mode })
+      const updated = addHistoryRecord(get().sentence, mode)
+      set({ writingMode: mode, history: updated })
     },
 
     setSpacing: (spacing) => set({ spacing }),
@@ -114,6 +134,30 @@ export const useComposeStore = create<ComposeState>((set, get) => {
 
     replayAnimation: () => {
       set({ animationKey: get().animationKey + 1 })
+    },
+
+    loadHistoryFromStorage: () => {
+      set({ history: loadHistory() })
+    },
+
+    restoreHistoryItem: (item) => {
+      saveComposeSentence(item.sentence)
+      saveComposeWritingMode(item.writingMode)
+      set({
+        sentence: item.sentence,
+        writingMode: item.writingMode,
+        animationKey: get().animationKey + 1,
+      })
+    },
+
+    removeHistoryItem: (id) => {
+      const updated = removeHistoryRecord(id)
+      set({ history: updated })
+    },
+
+    clearAllHistory: () => {
+      const updated = clearHistoryStorage()
+      set({ history: updated })
     },
   }
 })

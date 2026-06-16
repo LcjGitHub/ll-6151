@@ -40,6 +40,14 @@ export interface FavoriteItem {
   createdAt: number
 }
 
+/** 排版历史记录条目 */
+export interface HistoryItem {
+  id: string
+  sentence: string
+  writingMode: WritingMode
+  timestamp: number
+}
+
 /** 逐字映射结果 */
 export interface MappedCharacter {
   char: string
